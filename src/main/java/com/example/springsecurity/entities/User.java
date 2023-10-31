@@ -34,7 +34,7 @@ public class User implements Serializable {
     private String ipAddress;
     private boolean isAdmin;
     private Instant createAt;
-    private int status;
+    private Boolean status;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

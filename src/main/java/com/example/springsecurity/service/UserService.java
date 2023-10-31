@@ -9,4 +9,6 @@ public interface UserService {
     String auth(UserDTO userDTO);
 
     User userInfo(String token);
+
+    boolean verifyToken(String token);
 }

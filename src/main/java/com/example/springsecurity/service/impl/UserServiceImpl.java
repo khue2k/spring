@@ -5,6 +5,7 @@ import com.example.springsecurity.entities.Role;
 import com.example.springsecurity.entities.User;
 import com.example.springsecurity.exception.ExistEmailException;
 import com.example.springsecurity.exception.ExistUsernameException;
+import com.example.springsecurity.reposiroty.ConfirmationRepository;
 import com.example.springsecurity.reposiroty.RoleRepository;
 import com.example.springsecurity.reposiroty.UserRepository;
 import com.example.springsecurity.service.UserService;
@@ -39,7 +40,10 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     private final JwtUtils jwtUtils;
+
     private final JavaMailSender javaMailSender;
+
+    private final ConfirmationRepository confirmationRepository;
 
 
     @Override
@@ -53,9 +57,9 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
-            user.setStatus(1);
+            user.setStatus(true);
             user.setCreateAt(Instant.now());
-            Role role = roleRepository.findByRoleName(ERole.ROLE_USER).orElseThrow(() -> new Exception());
+            Role role = roleRepository.findByRoleName(ERole.ROLE_USER).orElseThrow(Exception::new);
             user.setRoles(Set.of(role));
             return userRepository.save(user);
         } catch (ExistEmailException e) {
@@ -63,7 +67,7 @@ public class UserServiceImpl implements UserService {
         } catch (ExistUsernameException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -84,6 +88,11 @@ public class UserServiceImpl implements UserService {
         String email = jwtUtils.getUsername(Utils.getToken(brearToken));
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
         return user;
+    }
+
+    @Override
+    public boolean verifyToken(String token) {
+        return false;
     }
 
     private void sendEmail(String to, String subject, String text) {
