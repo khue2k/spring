@@ -1,6 +1,7 @@
 package com.example.springsecurity.service.impl;
 
 import com.example.springsecurity.dto.UserDTO;
+import com.example.springsecurity.entities.Confirmation;
 import com.example.springsecurity.entities.Role;
 import com.example.springsecurity.entities.User;
 import com.example.springsecurity.exception.ExistEmailException;
@@ -57,10 +58,19 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
-            user.setStatus(true);
+            user.setStatus(false);
             user.setCreateAt(Instant.now());
+
             Role role = roleRepository.findByRoleName(ERole.ROLE_USER).orElseThrow(Exception::new);
             user.setRoles(Set.of(role));
+
+            Confirmation confirmation = new Confirmation(user);
+            confirmationRepository.save(confirmation);
+
+            /*TODO send email to verify account */
+
+
+
             return userRepository.save(user);
         } catch (ExistEmailException e) {
             System.out.println(e.getMessage());
@@ -70,6 +80,21 @@ public class UserServiceImpl implements UserService {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    private void sendEmail(){
+
+    }
+
+    @Override
+    public boolean verifyToken(String token) {
+        if (confirmationRepository.existsByToken(token)) {
+            Confirmation confirmation = confirmationRepository.findByToken(token);
+            User user = userRepository.findByEmail(confirmation.getUser().getEmail()).orElseThrow(() -> new UsernameNotFoundException("Account not found"));
+            user.setStatus(true);
+            userRepository.save(user);
+        }
+        return false;
     }
 
     @Override
@@ -88,19 +113,5 @@ public class UserServiceImpl implements UserService {
         String email = jwtUtils.getUsername(Utils.getToken(brearToken));
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
         return user;
-    }
-
-    @Override
-    public boolean verifyToken(String token) {
-        return false;
-    }
-
-    private void sendEmail(String to, String subject, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("songkhecole@gmail.com");
-        message.setSubject(subject);
-        message.setText(text);
-        message.setTo(to);
-        javaMailSender.send(message);
     }
 }

@@ -1,14 +1,11 @@
 package com.example.springsecurity.config;
 
-import com.example.springsecurity.entities.Log;
 import com.example.springsecurity.reposiroty.LogRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 
 @Component
 public class LogInterceptor extends HandlerInterceptorAdapter {
@@ -21,15 +18,6 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-//        String apiKey = request.getHeader("api-key");
-//        if ("khue123".equals(apiKey)){
-//            Log log=new Log();
-//            log.setTime(new Date());
-//            log.setEndpointName(request.getRequestURI());
-//            logRepository.save(log);
-//            return true;
-//        }
-
         return true;
     }
 

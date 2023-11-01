@@ -27,17 +27,30 @@ public class AuthController {
         return ResponseEntity.created(URI.create("")).body(
                 HttpResponse.builder()
                         .timeStamp(LocalDateTime.now().toString())
-                        .message("Uer created")
+                        .message("User created")
                         .status(HttpStatus.CREATED)
-                        .statusCode(HttpStatus.OK.value())
+                        .statusCode(HttpStatus.CREATED.value())
                         .data(Map.of("user", user))
+                        .build()
+        );
+    }
+
+    @PostMapping("/confirm")
+    public ResponseEntity<HttpResponse> confirm(@RequestParam("token") String token) {
+        boolean isSuccess = userService.verifyToken(token);
+        return ResponseEntity.ok().body(
+                HttpResponse.builder()
+                        .timeStamp(LocalDateTime.now().toString())
+                        .message("Account verified")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .data(Map.of("Success", isSuccess))
                         .build()
         );
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
-
         return ResponseEntity.ok(new ResponseDTO<>(userService.auth(userDTO), 200));
     }
 
@@ -46,8 +59,4 @@ public class AuthController {
         return ResponseEntity.ok(new ResponseDTO<>("Test OK", 200));
     }
 
-    @GetMapping("/user-info")
-    public ResponseEntity<?> userInfo(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(new ResponseDTO<>("Success", 200, userService.userInfo(token)));
-    }
 }
