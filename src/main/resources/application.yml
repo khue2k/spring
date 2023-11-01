@@ -13,14 +13,15 @@ app:
   jwtCookieName: app-jwt
   jwtRefreshCookieName: app-refresh-token
 
-
 #data source
 spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:test}
   datasource:
-    url: jdbc:h2:mem:dbtest
-    username: sa
-    password:
-    driverClassName: org.h2.Driver
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driverClassName: ${DATABASE_DRIVER}
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     hibernate:

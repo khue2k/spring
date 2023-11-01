@@ -1,0 +1,13 @@
+#Database
+DATABASE_URL: jdbc:h2:mem:mydb
+DATABASE_USERNAME: sa
+DATABASE_PASSWORD: test
+DATABASE_DRIVER: org.h2.Driver
+
+#App
+
+#Redis
+
+#Token
+
+#Email

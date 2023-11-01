@@ -64,6 +64,8 @@ public class UserServiceImpl implements UserService {
             Role role = roleRepository.findByRoleName(ERole.ROLE_USER).orElseThrow(Exception::new);
             user.setRoles(Set.of(role));
 
+            userRepository.save(user);
+
             Confirmation confirmation = new Confirmation(user);
             confirmationRepository.save(confirmation);
 
@@ -71,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-            return userRepository.save(user);
+            return user;
         } catch (ExistEmailException e) {
             System.out.println(e.getMessage());
         } catch (ExistUsernameException e) {
