@@ -5,12 +5,10 @@ import com.example.springsecurity.dto.ResponseDTO;
 import com.example.springsecurity.dto.UserDTO;
 import com.example.springsecurity.entities.User;
 import com.example.springsecurity.service.UserService;
-import com.example.springsecurity.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -23,16 +21,28 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<HttpResponse> register(@RequestBody UserDTO userDTO) {
-        User user = userService.saveUser(userDTO);
-        return ResponseEntity.created(URI.create("")).body(
-                HttpResponse.builder()
-                        .timeStamp(LocalDateTime.now().toString())
-                        .message("User created")
-                        .status(HttpStatus.CREATED)
-                        .statusCode(HttpStatus.CREATED.value())
-                        .data(Map.of("user", user))
-                        .build()
-        );
+        try {
+            User user = userService.saveUser(userDTO);
+            return ResponseEntity.created(URI.create("")).body(
+                    HttpResponse.builder()
+                            .timeStamp(LocalDateTime.now().toString())
+                            .message("User created")
+                            .status(HttpStatus.CREATED)
+                            .statusCode(HttpStatus.CREATED.value())
+                            .data(Map.of("user", user))
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.created(URI.create("")).body(
+                    HttpResponse.builder()
+                            .timeStamp(LocalDateTime.now().toString())
+                            .message("User invalid")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .data(Map.of("user", "ERROR"))
+                            .build()
+            );
+        }
     }
 
     @PostMapping("/confirm")

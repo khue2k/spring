@@ -4,6 +4,8 @@ redis:
   port: 6039
   password: root
 
+sender: khue123
+
 #token config
 app:
   jwtSecret: hello123
@@ -32,26 +34,31 @@ spring:
   mail:
     host: ${EMAIL_HOST}
     port: ${EMAIL_PORT}
-    username: ${EMAIL_ID}
+    username: ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
-    default-encoding: UTF-8
+#    default-encoding: UTF-8
     properties:
       mail:
-        mime:
-          charset: UTF
+#        mime:
+#          charset: UTF
         smtp:
           writetimeout: 10000
           connectiontimeout: 10000
           timeout: 10000
-          auth: true
-          starttls:
-            enable: true
-            required: true
-    verify:
-      host: ${VERIFY_EMAIL_HOST}
+#
+
+#    verify:
+#      host: ${VERIFY_EMAIL_HOST}
 
 server:
   port: ${SERVER_PORT:8080}
+
+
+
+
+
+
+
 # redis config
 #redis.host=localhost
 #redis.port=6379

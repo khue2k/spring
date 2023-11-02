@@ -1,5 +1,6 @@
 package com.example.springsecurity.service.impl;
 
+import com.example.springsecurity.dto.EmailDetail;
 import com.example.springsecurity.dto.UserDTO;
 import com.example.springsecurity.entities.Confirmation;
 import com.example.springsecurity.entities.Role;
@@ -9,6 +10,7 @@ import com.example.springsecurity.exception.ExistUsernameException;
 import com.example.springsecurity.reposiroty.ConfirmationRepository;
 import com.example.springsecurity.reposiroty.RoleRepository;
 import com.example.springsecurity.reposiroty.UserRepository;
+import com.example.springsecurity.service.EmailService;
 import com.example.springsecurity.service.UserService;
 import com.example.springsecurity.utils.ERole;
 import com.example.springsecurity.utils.JwtUtils;
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     private final JwtUtils jwtUtils;
 
-    private final JavaMailSender javaMailSender;
+    private final EmailService emailService;
 
     private final ConfirmationRepository confirmationRepository;
 
@@ -70,9 +72,12 @@ public class UserServiceImpl implements UserService {
             confirmationRepository.save(confirmation);
 
             /*TODO send email to verify account */
-
-
-
+            EmailDetail emailDetail = new EmailDetail();
+            emailDetail.setRecipient(userDTO.getEmail());
+            emailDetail.setMsgBody("This is email send from khue123");
+            emailDetail.setSubject("Header of email ");
+            emailDetail.setAttachment(null);
+            emailService.sendEmailWithSimpleText(emailDetail);
             return user;
         } catch (ExistEmailException e) {
             System.out.println(e.getMessage());
@@ -84,7 +89,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    private void sendEmail(){
+    private void sendEmail() {
 
     }
 
