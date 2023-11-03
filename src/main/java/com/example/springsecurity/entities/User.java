@@ -17,10 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
     private String lastName;
@@ -33,7 +30,6 @@ public class User implements Serializable {
     private int numberAttempt;
     private String ipAddress;
     private boolean isAdmin;
-    private Instant createAt;
     private Boolean status;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",

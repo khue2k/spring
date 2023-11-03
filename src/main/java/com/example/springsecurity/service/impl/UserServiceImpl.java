@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Set;
 
 @Service
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
             user.setStatus(false);
-            user.setCreateAt(Instant.now());
+            user.setCreateAt(new Date());
 
             Role role = roleRepository.findByRoleName(ERole.ROLE_USER).orElseThrow(Exception::new);
             user.setRoles(Set.of(role));

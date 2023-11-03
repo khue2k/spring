@@ -19,18 +19,18 @@ app:
 spring:
   profiles:
     active: ${ACTIVE_PROFILE:dev}
-  datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    driverClassName: ${DATABASE_DRIVER}
+#  datasource:
+#    url: ${DATABASE_URL}
+#    username: ${DATABASE_USERNAME}
+#    password: ${DATABASE_PASSWORD}
+#    driverClassName: ${DATABASE_DRIVER}
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
-  h2:
-    console:
-      enabled: true
+#  h2:
+#    console:
+#      enabled: true
   mail:
     host: ${EMAIL_HOST}
     port: ${EMAIL_PORT}
@@ -45,7 +45,6 @@ spring:
           writetimeout: 10000
           connectiontimeout: 10000
           timeout: 10000
-#
 
 #    verify:
 #      host: ${VERIFY_EMAIL_HOST}
