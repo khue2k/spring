@@ -7,11 +7,13 @@ import com.example.springsecurity.entities.User;
 import com.example.springsecurity.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -62,6 +64,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(new ResponseDTO<>(userService.auth(userDTO), 200));
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity<?> signout() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.toString()!="anonymousUser"){
+
+        }
+        return null;
     }
 
     @PostMapping("/auth/refresh-token")
