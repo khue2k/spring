@@ -1,9 +1,8 @@
-package com.example.springsecurity.config;
+package com.example.springsecurity.config.jwt;
 
 import com.example.springsecurity.entities.User;
 import com.example.springsecurity.reposiroty.UserRepository;
 import com.example.springsecurity.service.CustomUserDetailsService;
-import com.example.springsecurity.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

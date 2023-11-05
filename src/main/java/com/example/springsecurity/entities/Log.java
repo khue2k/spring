@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "log")
+@Table(name = "logs")
 public class Log {
     private Long id;
     private String endpointName;

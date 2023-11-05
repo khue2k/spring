@@ -13,11 +13,9 @@ import com.example.springsecurity.reposiroty.UserRepository;
 import com.example.springsecurity.service.EmailService;
 import com.example.springsecurity.service.UserService;
 import com.example.springsecurity.utils.ERole;
-import com.example.springsecurity.utils.JwtUtils;
+import com.example.springsecurity.config.jwt.JwtUtils;
 import com.example.springsecurity.utils.Utils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,7 +25,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
@@ -107,9 +104,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String auth(UserDTO userDTO) {
-        byte[] bytePassword = Base64.getDecoder().decode(userDTO.getPassword());
+//        byte[] bytePassword = Base64.getDecoder().decode(userDTO.getPassword());
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), new String(bytePassword)));
+                .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         System.out.println("Login : " + SecurityContextHolder.getContext().getAuthentication().getName());
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -119,7 +116,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User userInfo(String brearToken) {
         String email = jwtUtils.getUsername(Utils.getToken(brearToken));
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
-        return user;
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
     }
 }

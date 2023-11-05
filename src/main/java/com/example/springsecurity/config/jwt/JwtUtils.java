@@ -1,4 +1,4 @@
-package com.example.springsecurity.utils;
+package com.example.springsecurity.config.jwt;
 
 import com.example.springsecurity.entities.User;
 import io.jsonwebtoken.*;

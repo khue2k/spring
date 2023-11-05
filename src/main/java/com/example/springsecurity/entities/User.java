@@ -20,17 +20,26 @@ import java.util.Set;
 public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
+
     private String lastName;
+
     private String firstName;
+
     @JsonIgnore
     private String password;
+
     @JsonIgnore
     private boolean isLockAccount;
+
     @JsonIgnore
     private int numberAttempt;
+
     private String ipAddress;
+
     private boolean isAdmin;
+
     private Boolean status;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
