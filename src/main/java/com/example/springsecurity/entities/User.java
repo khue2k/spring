@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,11 +30,11 @@ public class User extends BaseEntity {
     @JsonIgnore
     private int numberAttempt;
 
-    private String ipAddress;
-
     private boolean isAdmin;
 
     private Boolean status;
+
+    private Date timeToNextTry;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",

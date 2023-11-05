@@ -69,7 +69,7 @@ public class AuthController {
     @PostMapping("/signout")
     public ResponseEntity<?> signout() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal.toString()!="anonymousUser"){
+        if (!Objects.equals(principal.toString(), "anonymousUser")){
 
         }
         return null;

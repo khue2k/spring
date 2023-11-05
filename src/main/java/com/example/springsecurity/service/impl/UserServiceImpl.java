@@ -105,11 +105,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String auth(UserDTO userDTO) {
-//        byte[] bytePassword = Base64.getDecoder().decode(userDTO.getPassword());
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         System.out.println("Login : " + SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
+        if (user.getNumberAttempt() > 0) {
+            user.setNumberAttempt(0);
+            userRepository.save(user);
+        }
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return jwtUtils.generateToken(userDetails.getUsername());
     }
