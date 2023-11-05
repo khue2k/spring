@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
             user.setLastName(userDTO.getLastName());
             user.setStatus(false);
             user.setCreateAt(new Date());
+            user.setNonLockAccount(true);
 
             Role role = roleRepository.findByRoleName(ERole.ROLE_USER).orElseThrow(Exception::new);
             user.setRoles(Set.of(role));

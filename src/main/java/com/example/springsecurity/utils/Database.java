@@ -32,15 +32,18 @@ public class Database implements ApplicationRunner {
         User admin = new User();
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setEmail("admin@gmail.com");
+        admin.setNonLockAccount(true);
         admin.setRoles(Set.of(roleAdmin, roleUser));
 
         User user1 = new User();
         user1.setPassword(passwordEncoder.encode("user1"));
+        user1.setNonLockAccount(true);
         user1.setEmail("user1@gmail.com");
         user1.setRoles(Set.of(roleUser));
 
         User user2 = new User();
         user2.setPassword(passwordEncoder.encode("user2"));
+        user2.setNonLockAccount(true);
         user2.setEmail("user2@gmail.com");
         user2.setRoles(Set.of(roleUser));
 

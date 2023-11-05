@@ -1,22 +1,18 @@
 package com.example.springsecurity.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
@@ -28,8 +24,7 @@ public class User extends BaseEntity {
     @JsonIgnore
     private String password;
 
-    @JsonIgnore
-    private boolean isLockAccount;
+    private boolean nonLockAccount;
 
     @JsonIgnore
     private int numberAttempt;
@@ -46,4 +41,5 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles = new HashSet<>();
+
 }
