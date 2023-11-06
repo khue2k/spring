@@ -1,7 +1,7 @@
 #Database
 DATABASE_URL: jdbc:h2:mem:mydb
 DATABASE_USERNAME: sa
-DATABASE_PASSWORD: dev
+DATABASE_PASSWORD:
 DATABASE_DRIVER: org.h2.Driver
 
 #App
