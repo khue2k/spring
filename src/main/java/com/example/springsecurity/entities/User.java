@@ -34,7 +34,10 @@ public class User extends BaseEntity {
 
     private Boolean status;
 
-    private Date timeToNextTry;
+    @Column(name = "lock_time")
+    private Date lockTime;
+    @Column(name = "lock_time_duration")
+    private int lockTimeDuration;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",

@@ -1,8 +1,6 @@
 package com.example.springsecurity.config;
 
 import com.example.springsecurity.config.jwt.JwtAuthenticationFilter;
-import com.example.springsecurity.service.CustomAuthenticationFailureHandler;
-import com.example.springsecurity.service.CustomAuthenticationSuccessHandler;
 import com.example.springsecurity.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,8 +18,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
@@ -101,7 +97,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 );
     }
 
-    //enable H2-console
+    //ignore endpoint H2-console
     @Override
     public void configure(WebSecurity web) {
         web
