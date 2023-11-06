@@ -29,10 +29,10 @@ public class AuthenticationEventListener {
         String email = event.getAuthentication().getPrincipal().toString();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(Constants.EMAIL_NOT_FOUND));
         int numberAttempt = user.getNumberAttempt();
-        if (numberAttempt < MAX_ATTEMPT - 1) {
-            increaseFailedAttempt(user);
-        } else {
-            lockUser(user);
+        increaseFailedAttempt(user);
+        if (numberAttempt > MAX_ATTEMPT) {
+            int lockTimeDuration = (numberAttempt - MAX_ATTEMPT) * 10;
+            lockUser(user, lockTimeDuration);
             log.info("Account :{} has many attempt !", email);
         }
     }
@@ -55,9 +55,10 @@ public class AuthenticationEventListener {
         userRepository.updateFailedAttempts(0, user.getEmail());
     }
 
-    private void lockUser(User user) {
+    private void lockUser(User user, int lockTimeDuration) {
         user.setNonLockAccount(false);
         user.setLockTime(new Date());
+        user.setLockTimeDuration(lockTimeDuration);
         userRepository.save(user);
     }
 

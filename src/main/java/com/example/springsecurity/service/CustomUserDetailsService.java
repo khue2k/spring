@@ -26,8 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName().toString())).collect(Collectors.toSet());
-        if (unlockWhenTimeExpired(user)) {
-            user.setNonLockAccount(true);
+        if (!user.isNonLockAccount()) {
+            unlockWhenTimeExpired(user);
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), true, true, true, user.isNonLockAccount(), authorities);
@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         long lockTime = user.getLockTime().getTime();
         long now = System.currentTimeMillis();
         long lockTimeDuration = user.getLockTimeDuration() * 60 * 1000;
-        if (lockTime + lockTimeDuration > now) {
+        if (lockTime + lockTimeDuration < now) {
             user.setNonLockAccount(true);
             userRepository.save(user);
             return true;
