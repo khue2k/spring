@@ -11,4 +11,8 @@ public interface UserService {
     User userInfo(String token);
 
     boolean verifyToken(String token);
+
+    void forgotPassword(UserDTO userDTO);
+
+    void changePassword(String token);
 }

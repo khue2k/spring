@@ -104,6 +104,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void forgotPassword(UserDTO userDTO) {
+
+    }
+
+    @Override
+    public void changePassword(String token) {
+
+    }
+
+    @Override
     public String auth(UserDTO userDTO) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));

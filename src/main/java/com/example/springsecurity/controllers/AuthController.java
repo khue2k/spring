@@ -69,7 +69,7 @@ public class AuthController {
     @PostMapping("/signout")
     public ResponseEntity<?> signout() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!Objects.equals(principal.toString(), "anonymousUser")){
+        if (!Objects.equals(principal.toString(), "anonymousUser")) {
 
         }
         return null;
@@ -80,4 +80,15 @@ public class AuthController {
         return ResponseEntity.ok(new ResponseDTO<>("Test OK", 200));
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody UserDTO userDTO) {
+        userService.forgotPassword(userDTO);
+        return ResponseEntity.ok(new ResponseDTO<>("Successful", 200));
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody String token) {
+        userService.changePassword(token);
+        return ResponseEntity.ok(new ResponseDTO<>("Change password successful", 200));
+    }
 }
