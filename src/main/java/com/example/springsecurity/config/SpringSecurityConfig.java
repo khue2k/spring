@@ -1,6 +1,8 @@
 package com.example.springsecurity.config;
 
 import com.example.springsecurity.config.jwt.JwtAuthenticationFilter;
+import com.example.springsecurity.service.CustomAuthenticationFailureHandler;
+import com.example.springsecurity.service.CustomAuthenticationSuccessHandler;
 import com.example.springsecurity.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +20,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
@@ -48,7 +52,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
@@ -78,6 +81,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //set exception when login failed
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+
+        //custom authentication success handle
 
         http.authorizeRequests()
                 .antMatchers("/api/public/**").permitAll()

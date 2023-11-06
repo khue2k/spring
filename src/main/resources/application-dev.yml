@@ -1,5 +1,5 @@
 #Database
-DATABASE_URL: jdbc:h2:mem:testdb
+DATABASE_URL: jdbc:h2:mem:mydb
 DATABASE_USERNAME: sa
 DATABASE_PASSWORD: dev
 DATABASE_DRIVER: org.h2.Driver

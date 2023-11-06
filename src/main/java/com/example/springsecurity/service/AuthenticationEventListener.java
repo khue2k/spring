@@ -16,7 +16,7 @@ import java.util.Date;
 @Slf4j
 public class AuthenticationEventListener {
 
-    private static final int MAX_ATTEMPT = 4;
+    private static final int MAX_ATTEMPT = 3;
 
     private final UserRepository userRepository;
 
