@@ -30,8 +30,8 @@ public class AuthenticationEventListener {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(Constants.EMAIL_NOT_FOUND));
         int numberAttempt = user.getNumberAttempt();
         increaseFailedAttempt(user);
-        if (numberAttempt > MAX_ATTEMPT) {
-            int lockTimeDuration = (numberAttempt - MAX_ATTEMPT) * 10;
+        if (numberAttempt >= MAX_ATTEMPT) {
+            int lockTimeDuration = (numberAttempt - MAX_ATTEMPT + 1) * 10;
             lockUser(user, lockTimeDuration);
             log.info("Account :{} has many attempt !", email);
         }
