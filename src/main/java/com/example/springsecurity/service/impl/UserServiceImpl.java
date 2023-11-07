@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 
             /*TODO send email to verify account */
 
-            emailService.sendEmailWithSimpleText(userDTO.getLastName(), userDTO.getEmail(), confirmation.getToken());
+            emailService.sendHtmlEmail(userDTO.getLastName(), userDTO.getEmail(), confirmation.getToken());
             return user;
         } catch (ExistEmailException e) {
             System.out.println(e.getMessage());

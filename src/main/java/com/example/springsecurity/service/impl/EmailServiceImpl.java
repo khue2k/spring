@@ -8,7 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 @Slf4j
@@ -24,7 +29,7 @@ public class EmailServiceImpl implements EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
             message.setSubject("New user account verification ");
-            message.setText(MailUtils.getEmailMessage(name, "127.0.0.1:8080", token));
+            message.setText("Hihihi");
             sender.send(message);
 
         } catch (Exception ex) {
@@ -40,6 +45,19 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendHtmlEmail(String name, String to, String token) {
+        try {
+            MimeMessage message = sender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            helper.setTo(to);
+            helper.setSubject("New user account verification ");
+            String emailContent = MailUtils.getEmailMessage(name, "localhost:8080", token);
+            helper.setText(emailContent, true);
+
+            sender.send(message);
+        } catch (MessagingException e) {
+            log.error(e.getMessage(), e);
+        }
 
     }
 
