@@ -63,7 +63,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(new ResponseDTO<>(userService.auth(userDTO), 200));
+        return ResponseEntity.ok(new ResponseDTO<>("Login success !", 200, userService.auth(userDTO)));
     }
 
     @PostMapping("/signout")

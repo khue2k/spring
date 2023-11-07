@@ -38,7 +38,6 @@ public class AuthenticationEventListener {
     }
 
 
-
     @EventListener
     @Transactional
     public void authenticationSuccess(AuthenticationSuccessEvent event) {
@@ -49,6 +48,7 @@ public class AuthenticationEventListener {
 
     private void increaseFailedAttempt(User user) {
         int newFailedAttempt = user.getNumberAttempt() + 1;
+        user.setNumberAttempt(newFailedAttempt);
         userRepository.updateFailedAttempts(newFailedAttempt, user.getEmail());
     }
 
