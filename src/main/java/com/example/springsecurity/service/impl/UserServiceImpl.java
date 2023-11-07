@@ -74,12 +74,8 @@ public class UserServiceImpl implements UserService {
             confirmationRepository.save(confirmation);
 
             /*TODO send email to verify account */
-            EmailDetail emailDetail = new EmailDetail();
-            emailDetail.setRecipient(userDTO.getEmail());
-            emailDetail.setMsgBody("This is email send from khue123");
-            emailDetail.setSubject("Header of email ");
-            emailDetail.setAttachment(null);
-            emailService.sendEmailWithSimpleText(emailDetail);
+
+            emailService.sendEmailWithSimpleText(userDTO.getLastName(), userDTO.getEmail(), confirmation.getToken());
             return user;
         } catch (ExistEmailException e) {
             System.out.println(e.getMessage());

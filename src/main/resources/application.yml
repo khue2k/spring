@@ -38,10 +38,13 @@ spring:
     password: ${EMAIL_PASSWORD}
     properties:
       mail:
+        transport:
+          protocol: smtp
+        debug: true
         smtp:
-          writetimeout: 10000
-          connectiontimeout: 10000
-          timeout: 10000
+          auth: true
+          starttls:
+            enable: true
 server:
   port: ${SERVER_PORT:8080}
 

@@ -4,7 +4,11 @@ package com.example.springsecurity.service;
 import com.example.springsecurity.dto.EmailDetail;
 
 public interface EmailService {
-    String sendEmailWithSimpleText(EmailDetail emailDetail);
+    void sendEmailWithSimpleText(String name, String to, String token);
 
-    String sendEmailWithAttachment(EmailDetail emailDetail);
+    void sendEmailWithAttachment(String name, String to, String token);
+
+    void sendHtmlEmail(String name, String to, String token);
+
+    void sendMimeMessageWithAttachment(String name, String to, String token);
 }
