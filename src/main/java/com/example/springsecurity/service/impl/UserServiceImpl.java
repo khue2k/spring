@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -63,7 +64,9 @@ public class UserServiceImpl implements UserService {
             user.setNonLockAccount(true);
 
             Role role = roleRepository.findByRoleName(ERole.ROLE_USER).orElseThrow(Exception::new);
-            user.setRoles(Set.of(role));
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+            user.setRoles(roles);
 
             userRepository.save(user);
 

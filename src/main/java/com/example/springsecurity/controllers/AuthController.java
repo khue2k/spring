@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,23 +26,27 @@ public class AuthController {
     public ResponseEntity<HttpResponse> register(@RequestBody UserDTO userDTO) {
         try {
             User user = userService.saveUser(userDTO);
+            Map<String, Object> map = new HashMap<>();
+            map.put("user", user);
             return ResponseEntity.created(URI.create("")).body(
                     HttpResponse.builder()
                             .timeStamp(LocalDateTime.now().toString())
                             .message("User created")
                             .status(HttpStatus.CREATED)
                             .statusCode(HttpStatus.CREATED.value())
-                            .data(Map.of("user", user))
+                            .data(map)
                             .build()
             );
         } catch (Exception e) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("user", "ERROR");
             return ResponseEntity.created(URI.create("")).body(
                     HttpResponse.builder()
                             .timeStamp(LocalDateTime.now().toString())
                             .message("User invalid")
                             .status(HttpStatus.BAD_REQUEST)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .data(Map.of("user", "ERROR"))
+                            .data(map)
                             .build()
             );
         }
@@ -56,7 +61,7 @@ public class AuthController {
                         .message("Account verified")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
-                        .data(Map.of("Success", isSuccess))
+                        .data(null)
                         .build()
         );
     }
