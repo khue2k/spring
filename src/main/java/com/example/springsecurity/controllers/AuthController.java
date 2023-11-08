@@ -52,16 +52,18 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/confirm")
+    @GetMapping("/confirm")
     public ResponseEntity<HttpResponse> confirm(@RequestParam("token") String token) {
         boolean isSuccess = userService.verifyToken(token);
+        Map<String, Object> map = new HashMap<>();
+        map.put("Result : ", isSuccess);
         return ResponseEntity.ok().body(
                 HttpResponse.builder()
                         .timeStamp(LocalDateTime.now().toString())
                         .message("Account verified")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
-                        .data(null)
+                        .data(map)
                         .build()
         );
     }

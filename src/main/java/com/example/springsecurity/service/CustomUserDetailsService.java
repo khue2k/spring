@@ -26,11 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName().toString())).collect(Collectors.toSet());
-        if (!user.isNonLockAccount()) {
+        if (!user.isNonLockAccount())
             unlockWhenTimeExpired(user);
-        }
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(), true, true, true, user.isNonLockAccount(), authorities);
+                user.getEmail(), user.getPassword(), user.getStatus(), true, true, user.isNonLockAccount(), authorities);
     }
 
     private boolean unlockWhenTimeExpired(User user) {

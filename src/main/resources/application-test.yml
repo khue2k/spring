@@ -13,9 +13,8 @@ DATABASE_DRIVER: org.h2.Driver
 #Email
 EMAIL_HOST: smtp.gmail.com
 EMAIL_PORT: 587
-EMAIL_ID: songkhecole@gmail.com
-EMAIL_PASSWORD: faet ytpt dlbc rjdh
-VERIFY_EMAIL_HOST: http://localhost:${SERVER_PORT}
+EMAIL_USERNAME: songkhecole@gmail.com
+EMAIL_PASSWORD: oeeddxcmslcxjmwa
 
 #Server
 SERVER_PORT: 8080

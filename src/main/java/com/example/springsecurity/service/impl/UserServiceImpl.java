@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
             user.setStatus(false);
             user.setCreateAt(new Date());
             user.setNonLockAccount(true);
+            user.setCreateBy("Anonymous");
 
             Role role = roleRepository.findByRoleName(ERole.ROLE_USER).orElseThrow(Exception::new);
             Set<Role> roles = new HashSet<>();
@@ -74,17 +75,19 @@ public class UserServiceImpl implements UserService {
             confirmationRepository.save(confirmation);
 
             /*TODO send email to verify account */
+            emailService.sendEmailWithSimpleText(userDTO.getLastName(), userDTO.getEmail(), confirmation.getToken());
 
-            emailService.sendHtmlEmail(userDTO.getLastName(), userDTO.getEmail(), confirmation.getToken());
             return user;
         } catch (ExistEmailException e) {
             System.out.println(e.getMessage());
+            return null;
         } catch (ExistUsernameException e) {
             System.out.println(e.getMessage());
+            return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return null;
         }
-        return null;
     }
 
     private void sendEmail() {
@@ -98,6 +101,7 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.findByEmail(confirmation.getUser().getEmail()).orElseThrow(() -> new UsernameNotFoundException("Account not found"));
             user.setStatus(true);
             userRepository.save(user);
+            return true;
         }
         return false;
     }

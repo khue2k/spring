@@ -1,11 +1,7 @@
 package com.example.springsecurity.entities;
 
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
