@@ -88,14 +88,14 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(@RequestBody UserDTO userDTO) {
-        userService.forgotPassword(userDTO);
+    public ResponseEntity<?> forgotPassword(@RequestBody String email) {
+        userService.forgotPassword(email);
         return ResponseEntity.ok(new ResponseDTO<>("Successful", 200));
     }
 
-    @PostMapping("/change-password")
-    public ResponseEntity<?> changePassword(@RequestBody String token) {
-        userService.changePassword(token);
+    @PostMapping("/confirm-reset-password")
+    public ResponseEntity<?> changePassword(@RequestBody UserDTO userDTO, @RequestParam(name = "token") String token) {
+        userService.changePassword(token, userDTO);
         return ResponseEntity.ok(new ResponseDTO<>("Change password successful", 200));
     }
 }

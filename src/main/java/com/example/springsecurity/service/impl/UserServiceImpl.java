@@ -1,12 +1,13 @@
 package com.example.springsecurity.service.impl;
 
-import com.example.springsecurity.dto.EmailDetail;
 import com.example.springsecurity.dto.UserDTO;
+import com.example.springsecurity.entities.ConfirmPassword;
 import com.example.springsecurity.entities.Confirmation;
 import com.example.springsecurity.entities.Role;
 import com.example.springsecurity.entities.User;
 import com.example.springsecurity.exception.ExistEmailException;
 import com.example.springsecurity.exception.ExistUsernameException;
+import com.example.springsecurity.reposiroty.ConfirmPasswordRepository;
 import com.example.springsecurity.reposiroty.ConfirmationRepository;
 import com.example.springsecurity.reposiroty.RoleRepository;
 import com.example.springsecurity.reposiroty.UserRepository;
@@ -25,10 +26,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +44,8 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
 
     private final ConfirmationRepository confirmationRepository;
+
+    private final ConfirmPasswordRepository confirmPasswordRepository;
 
 
     @Override
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
             confirmationRepository.save(confirmation);
 
             /*TODO send email to verify account */
-            new Thread(() -> emailService.sendEmailWithSimpleText(userDTO.getLastName(), userDTO.getEmail(), confirmation.getToken())).start();
+            new Thread(() -> emailService.sendEmailConfirmNewUser(userDTO.getLastName(), userDTO.getEmail(), confirmation.getToken())).start();
             return user;
         } catch (ExistEmailException e) {
             System.out.println(e.getMessage());
@@ -106,13 +106,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void forgotPassword(UserDTO userDTO) {
-
+    public void forgotPassword(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
+        ConfirmPassword confirmPassword = new ConfirmPassword(user);
+        confirmPasswordRepository.save(confirmPassword);
+        /*To do send email */
+        new Thread(() -> emailService.sendEmailForgotPassword(user.getLastName(), user.getEmail(), confirmPassword.getToken()));
     }
 
     @Override
-    public void changePassword(String token) {
-
+    public boolean changePassword(String token, UserDTO userDTO) {
+        Optional<ConfirmPassword> confirmPasswordOptional = confirmPasswordRepository.findByToken(token);
+        if (confirmPasswordOptional.isPresent()) {
+            ConfirmPassword confirmPassword = confirmPasswordOptional.get();
+            User user = userRepository.findByEmail(confirmPassword.getUser().getEmail()).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     @Override

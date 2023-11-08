@@ -22,11 +22,26 @@ public class EmailServiceImpl implements EmailService {
     JavaMailSender sender;
 
     @Override
-    public void sendEmailWithSimpleText(String name, String to, String token) {
+    public void sendEmailConfirmNewUser(String name, String to, String token) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
             message.setSubject("New user account verification ");
+            message.setText(EmailUtils.getEmailMessage(name, "127.0.0.1:8080", token));
+            sender.send(message);
+
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void sendEmailForgotPassword(String name, String to, String token) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(to);
+            message.setSubject("Reset password for account ");
             message.setText(EmailUtils.getEmailMessage(name, "127.0.0.1:8080", token));
             sender.send(message);
 

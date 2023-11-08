@@ -12,7 +12,7 @@ public interface UserService {
 
     boolean verifyToken(String token);
 
-    void forgotPassword(UserDTO userDTO);
+    void forgotPassword(String userDTO);
 
-    void changePassword(String token);
+    boolean changePassword(String token, UserDTO userDTO);
 }
