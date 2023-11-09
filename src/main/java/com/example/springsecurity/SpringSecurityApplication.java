@@ -24,7 +24,6 @@ public class SpringSecurityApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        redisTemplate.opsForValue().set("key1","khue1234");
-        System.out.println("commandline in main running ...");
+
     }
 }
