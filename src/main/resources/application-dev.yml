@@ -7,6 +7,10 @@ DATABASE_DRIVER: org.h2.Driver
 #App
 
 #Redis
+REDIS_HOST: redis-17168.c252.ap-southeast-1-1.ec2.cloud.redislabs.com
+REDIS_PORT: 17168
+REDIS_PASSWORD: hz2lSDNa5sJHQJAlhuLSXxhqP8l1Cuvc
+REDIS_USERNAME: default
 
 #Token
 

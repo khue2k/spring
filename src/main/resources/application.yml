@@ -1,8 +1,9 @@
 #redis config
 redis:
-  host: localhost
-  port: 6039
-  password: root
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+  username: ${REDIS_USERNAME}
+  password: ${REDIS_PASSWORD}
 
 sender: khue123
 
