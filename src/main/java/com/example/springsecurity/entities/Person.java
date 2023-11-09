@@ -28,6 +28,7 @@ public class Person {
     private String email;
 
     private String address;
+
     @NotNull
     private String password;
     @Transient
