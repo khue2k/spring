@@ -27,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
             message.setSubject("New user account verification ");
-            message.setText(EmailUtils.getEmailMessage(name, "127.0.0.1:8080", token));
+            message.setText(EmailUtils.getEmailMessage(name, "http://localhost:4200/confirmation-required", token));
             sender.send(message);
 
         } catch (Exception ex) {
