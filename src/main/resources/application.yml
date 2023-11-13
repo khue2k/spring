@@ -50,6 +50,8 @@ minio:
   accessKey: ${MINIO_ACCESS_KEY}
   accessSecret: ${MINIO_ACCESS_SECRET}
   url: ${MINIO_URL}
+  defaultFolder: ${MINIO_DEFAULT_FOLDER}
+  bucketName: ${BUCKET_NAME}
 server:
   port: ${SERVER_PORT:8080}
 
