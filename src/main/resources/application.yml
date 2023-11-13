@@ -46,6 +46,10 @@ spring:
           auth: true
           starttls:
             enable: true
+minio:
+  accessKey: ${MINIO_ACCESS_KEY}
+  accessSecret: ${MINIO_ACCESS_SECRET}
+  url: ${MINIO_URL}
 server:
   port: ${SERVER_PORT:8080}
 
