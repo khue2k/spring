@@ -1,16 +1,14 @@
 package com.example.springsecurity.service.impl;
 
 import com.example.springsecurity.service.MinioService;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
 import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -20,16 +18,20 @@ import java.security.NoSuchAlgorithmException;
 public class MinioServiceImpl implements MinioService {
     private final MinioClient minioClient;
 
-
     @Override
-    public void uploadFile(String name, byte[] content) {
-        File file = new File("/project_254/" + name);
-        file.canRead();
-        file.canWrite();
+    public void uploadFile(String bucketName, MultipartFile file) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(content);
-            minioClient.putObject(PutObjectArgs.builder().bucket("bucket-khue").build());
+            boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket("bucket-test").build());
+            if (!found) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket("bucket-test").build());
+            } else {
+                System.out.println("bucket-test already exist !");
+            }
+            minioClient.uploadObject(UploadObjectArgs.builder()
+                    .bucket("bucket-test")
+                    .object("/project284/item/test.txt")
+                    .filename("C:\\Users\\ADMIN\\Documents\\spring\\src\\test\\test.txt")
+                    .build());
         } catch (IOException | ErrorResponseException | InsufficientDataException | InternalException |
                  InvalidKeyException | InvalidResponseException | NoSuchAlgorithmException | ServerException |
                  XmlParserException e) {

@@ -1,21 +1,22 @@
 package com.example.springsecurity.controllers;
 
 import com.example.springsecurity.dto.ResponseDTO;
+import com.example.springsecurity.service.MinioService;
 import com.example.springsecurity.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class HomeController {
     private final UserService userService;
+    private final MinioService minioService;
+
     @GetMapping("/admin")
     public ResponseEntity<?> admin() {
         return ResponseEntity.ok(new ResponseDTO<>("TEST ADMIN", 200));
@@ -25,6 +26,7 @@ public class HomeController {
     public ResponseEntity<?> user() {
         return ResponseEntity.ok(new ResponseDTO<>("TEST USER", 200));
     }
+
     @GetMapping("/user-info")
     public ResponseEntity<?> userInfo(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(new ResponseDTO<>("Success", 200, userService.userInfo(token)));
@@ -47,4 +49,9 @@ public class HomeController {
         return ResponseEntity.ok(new ResponseDTO<>("Hello Khue1234 ", 200));
     }
 
+    @PostMapping("/public/upload-file")
+    public ResponseEntity<?> uploadFile(@RequestParam(name = "file") MultipartFile file) {
+        minioService.uploadFile("tenant-ptit", file);
+        return ResponseEntity.ok(new ResponseDTO<>("success", 200));
+    }
 }
