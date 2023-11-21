@@ -3,6 +3,9 @@ package com.example.springsecurity.controllers;
 import com.example.springsecurity.dto.ResponseDTO;
 import com.example.springsecurity.service.MinioService;
 import com.example.springsecurity.service.UserService;
+import io.minio.*;
+import io.minio.errors.*;
+import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -10,12 +13,21 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.stream.Stream;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class HomeController {
     private final UserService userService;
     private final MinioService minioService;
+    private final MinioClient minioClient;
 
     @GetMapping("/admin")
     public ResponseEntity<?> admin() {
@@ -45,8 +57,16 @@ public class HomeController {
     }
 
     @GetMapping("/public")
-    public ResponseEntity<?> publicApi() {
-        return ResponseEntity.ok(new ResponseDTO<>("Hello Khue1234 ", 200));
+    public ResponseEntity<?> publicApi() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        try (InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket("bucket-test").object("file/abc.txt").build())) {
+            BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
+            Stream<String> stream;
+            stream=bufferedReader.lines();
+            stream.forEach(s -> System.out.println(s));
+        } catch (Exception e) {
+        }
+
+        return null;
     }
 
     @PostMapping("/public/upload-file")

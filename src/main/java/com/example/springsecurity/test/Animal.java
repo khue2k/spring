@@ -1,5 +1,9 @@
 package com.example.springsecurity.test;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.*;
 
 public abstract class Animal {
@@ -82,33 +86,20 @@ class Cat extends Animal implements Say {
 
 }
 
+// Annotation này có thể sử dụng tại thời điểm chạy (Runtime) của chương trình.
+@Retention(RetentionPolicy.RUNTIME)
+// Có thể dùng cho class,interface, method, field, parameter.
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD,
+        ElementType.PARAMETER})
+@interface MyAnnotation {
+
+    String name();
+
+    String value() default "";
+}
+@MyAnnotation(name = "khue",value = "200")
 class Test {
-    private static boolean isGetter(Method method) {
-        if (!method.getName().startsWith("get")) {
-            return false;
-        } else if (method.getParameters().length != 0) {
-            return false;
-        } else if (void.class.equals(method.getReturnType())) {
-            return false;
-        }
-        return true;
-    }
-
-    private static boolean isSetter(Method method) {
-        if (!method.getName().startsWith("set")) {
-            return false;
-        } else if (method.getParameters().length != 1) {
-            return false;
-        }
-        return true;
-    }
-
     public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
-        Class<Cat> aClass = Cat.class;
-        for (Method declaredMethod : aClass.getDeclaredMethods()) {
-            System.out.println("Method name : " + declaredMethod.getName());
-            System.out.println("Is getter : " + Test.isGetter(declaredMethod));
-            System.out.println("Is setter : " + Test.isSetter(declaredMethod));
-        }
+        Class<Test> aClass= Test.class;
     }
 }
