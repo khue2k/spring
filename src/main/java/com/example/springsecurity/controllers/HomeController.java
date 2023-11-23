@@ -70,8 +70,7 @@ public class HomeController {
     }
 
     @PostMapping("/public/upload-file")
-    public ResponseEntity<?> uploadFile(@RequestParam(name = "file") MultipartFile file) {
-        minioService.uploadFile("tenant-ptit", file);
-        return ResponseEntity.ok(new ResponseDTO<>("success", 200));
+    public ResponseEntity<?> uploadFile(@RequestParam(name = "file") MultipartFile file) throws Exception {
+        throw new Exception("khuee");
     }
 }
