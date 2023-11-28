@@ -1,8 +1,9 @@
 package com.example.springsecurity.config;
 
-import com.example.springsecurity.config.websocket.HandMessage;
+import com.example.springsecurity.websocket.HandMessage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -11,7 +12,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebsocketConfig implements WebSocketConfigurer {
     @Bean
-    public HandMessage message() {
+    public WebSocketHandler message() {
         return new HandMessage();
     }
 
