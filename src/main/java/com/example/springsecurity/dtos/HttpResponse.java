@@ -1,4 +1,4 @@
-package com.example.springsecurity.dto;
+package com.example.springsecurity.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

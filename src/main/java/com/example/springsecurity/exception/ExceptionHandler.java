@@ -1,6 +1,6 @@
 package com.example.springsecurity.exception;
 
-import com.example.springsecurity.dto.ResponseDTO;
+import com.example.springsecurity.dtos.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

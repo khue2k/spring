@@ -1,4 +1,4 @@
-package com.example.springsecurity.config.jwt;
+package com.example.springsecurity.config.security;
 
 import com.example.springsecurity.entities.User;
 import com.example.springsecurity.reposiroty.UserRepository;

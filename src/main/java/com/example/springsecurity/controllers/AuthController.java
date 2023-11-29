@@ -1,8 +1,8 @@
 package com.example.springsecurity.controllers;
 
-import com.example.springsecurity.dto.HttpResponse;
-import com.example.springsecurity.dto.ResponseDTO;
-import com.example.springsecurity.dto.UserDTO;
+import com.example.springsecurity.dtos.HttpResponse;
+import com.example.springsecurity.dtos.ResponseDTO;
+import com.example.springsecurity.dtos.UserDTO;
 import com.example.springsecurity.entities.User;
 import com.example.springsecurity.service.UserService;
 import lombok.RequiredArgsConstructor;

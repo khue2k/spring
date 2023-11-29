@@ -1,6 +1,6 @@
 package com.example.springsecurity.service.impl;
 
-import com.example.springsecurity.dto.UserDTO;
+import com.example.springsecurity.dtos.UserDTO;
 import com.example.springsecurity.entities.ConfirmPassword;
 import com.example.springsecurity.entities.Confirmation;
 import com.example.springsecurity.entities.Role;
@@ -14,7 +14,7 @@ import com.example.springsecurity.reposiroty.UserRepository;
 import com.example.springsecurity.service.EmailService;
 import com.example.springsecurity.service.UserService;
 import com.example.springsecurity.utils.ERole;
-import com.example.springsecurity.config.jwt.JwtUtils;
+import com.example.springsecurity.config.security.JwtUtils;
 import com.example.springsecurity.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

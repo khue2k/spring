@@ -1,6 +1,6 @@
-package com.example.springsecurity.config;
+package com.example.springsecurity.config.security;
 
-import com.example.springsecurity.config.jwt.JwtAuthenticationFilter;
+import com.example.springsecurity.config.security.JwtAuthenticationFilter;
 import com.example.springsecurity.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

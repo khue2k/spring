@@ -1,4 +1,4 @@
-package com.example.springsecurity.dto;
+package com.example.springsecurity.dtos;
 
 import lombok.Data;
 

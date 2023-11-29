@@ -1,11 +1,10 @@
 package com.example.springsecurity.controllers;
 
-import com.example.springsecurity.dto.ResponseDTO;
+import com.example.springsecurity.dtos.ResponseDTO;
 import com.example.springsecurity.service.MinioService;
 import com.example.springsecurity.service.UserService;
 import io.minio.*;
 import io.minio.errors.*;
-import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
