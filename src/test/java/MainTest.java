@@ -9,4 +9,9 @@ public class MainTest {
     @Test
     void test() throws JsonProcessingException {
     }
+
+
+    public static void main(String[] args) {
+
+    }
 }
