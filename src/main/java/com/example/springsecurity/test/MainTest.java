@@ -39,21 +39,7 @@ class Rating {
 
 public class MainTest {
     public static void main(String[] args) throws ScriptException {
-        // Khởi tạo một đối tượng ScriptEngine
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("js");
-
-        // Mã JavaScript bạn muốn thực thi
-        String jsCode = "function myFun(){\n" +
-                "    return\"khue\"\n" +
-                "}\n" +
-                "myFun()";
-
-        // Thực thi mã JavaScript
-        Object result = engine.eval(jsCode);
-
-        // In kết quả
-        System.out.println(result); // Kết quả sẽ là 30 (tổng của x và y trong mã JavaScript)
+        System.out.println(Arrays.asList("1", "2", "3", "4", "5").stream().reduce((s, s2) -> s.concat("," + s2)).get());
     }
 
 }
