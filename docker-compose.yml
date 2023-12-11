@@ -1,5 +1,7 @@
 version: '3'
 services:
+
+  #mySql server
   mysql-server:
     image: 99afc808f15b
     container_name: mysql-server
@@ -9,6 +11,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3308:3306"
+  #minio server
   minio-server:
     image: minio/minio
     container_name: minio-server
@@ -24,3 +27,31 @@ services:
       MINIO_ROOT_PASSWORD: khue1234
     command: server --console-address ":9001" /data
 
+  #server A
+
+  spring-server-A:
+    image: spring-image
+    container_name: spring-server-A
+    ports:
+      - "8001:8080"
+
+  #server B
+  spring-server-B:
+    image: spring-image
+    container_name: spring-server-B
+    ports:
+      - "8002:8080"
+
+  #server C
+  spring-server-C:
+    image: spring-image
+    container_name: spring-server-C
+    ports:
+      - "8003:8080"
+
+  #server D
+  spring-server-D:
+    image: spring-image
+    container_name: spring-server-D
+    ports:
+      - "8004:8080"

@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 @Slf4j
 public class HomeController {
     private final UserService userService;
-    private final MinioService minioService;
     private final MinioClient minioClient;
 
     @GetMapping("/admin")
