@@ -2,6 +2,9 @@ package com.example.springsecurity.controllers;
 
 import com.example.springsecurity.dtos.ResponseDTO;
 import com.example.springsecurity.service.UserService;
+import com.example.springsecurity.test.redis.Student;
+import com.example.springsecurity.test.redis.StudentRepository;
+import com.example.springsecurity.test.redis.StudentService;
 import io.minio.*;
 import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
@@ -31,6 +35,9 @@ public class HomeController {
     private final MinioClient minioClient;
 
     private final Environment environment;
+
+    private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
     @GetMapping("/admin")
     public ResponseEntity<?> admin() {
@@ -82,6 +89,20 @@ public class HomeController {
         String variable = environment.getProperty("variable-environment");
         log.info(variable);
         log.info("----------Receive request success----------");
+        return ResponseEntity.ok(new ResponseDTO<>("OK", 200));
+    }
+
+    @GetMapping("public/test")
+    public ResponseEntity<?> testPublicApi() throws Exception {
+//        studentService.saveStudents(Arrays.asList(
+//                new Student("1", "Alice", Student.Gender.FEMALE, 12, Arrays.asList("math", "science")),
+//                new Student("2", "Bob", Student.Gender.MALE, 11, Arrays.asList("history", "geography")),
+//                new Student("3", "Charlie", Student.Gender.MALE, 13, Arrays.asList("biology", "chemistry"))
+//        ));
+
+        List<Student> list = studentService.getListStudent();
+        System.out.println(list);
+
         return ResponseEntity.ok(new ResponseDTO<>("OK", 200));
     }
 }

@@ -1,24 +1,16 @@
 package com.example.springsecurity.test;
 
 public class MainTest {
-    int solve(int a[], int k) {
-
+    int solve(int n) {
         int result = 0;
-        int windowSum = 0;
-        for (int i = 0; i < k; i++) {
-            windowSum += a[i];
+        while (n > 0) {
+            result = result * 10 + n % 10;
+            n = n / 10;
         }
-        result = windowSum;
-
-        for (int i = k; i < a.length; ++i) {
-            windowSum = windowSum + a[i] - a[i - k];
-            result = Math.max(windowSum, result);
-        }
-
         return result;
     }
 
     public static void main(String[] args) {
-        System.out.println(new MainTest().solve(new int[]{100, 2, 3, 4, 5, 6}, 3));
+        System.out.println(new MainTest().solve(12345));
     }
 }
