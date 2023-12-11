@@ -6,6 +6,7 @@ import com.example.springsecurity.service.UserService;
 import io.minio.*;
 import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Slf4j
 public class HomeController {
     private final UserService userService;
     private final MinioService minioService;
@@ -58,9 +60,9 @@ public class HomeController {
     @GetMapping("/public")
     public ResponseEntity<?> publicApi() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         try (InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket("bucket-test").object("file/abc.txt").build())) {
-            BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             Stream<String> stream;
-            stream=bufferedReader.lines();
+            stream = bufferedReader.lines();
             stream.forEach(s -> System.out.println(s));
         } catch (Exception e) {
         }
@@ -71,5 +73,11 @@ public class HomeController {
     @PostMapping("/public/upload-file")
     public ResponseEntity<?> uploadFile(@RequestParam(name = "file") MultipartFile file) throws Exception {
         throw new Exception("khuee");
+    }
+
+    @GetMapping("/public/test-load-balancing")
+    public ResponseEntity<?> testLoadBalancing() {
+        log.info("----------Receive request success----------");
+        return ResponseEntity.ok(new ResponseDTO<>("OK", 200));
     }
 }
