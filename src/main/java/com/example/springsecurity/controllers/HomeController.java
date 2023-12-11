@@ -1,12 +1,12 @@
 package com.example.springsecurity.controllers;
 
 import com.example.springsecurity.dtos.ResponseDTO;
-import com.example.springsecurity.service.MinioService;
 import com.example.springsecurity.service.UserService;
 import io.minio.*;
 import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +27,10 @@ import java.util.stream.Stream;
 @Slf4j
 public class HomeController {
     private final UserService userService;
+
     private final MinioClient minioClient;
+
+    private final Environment environment;
 
     @GetMapping("/admin")
     public ResponseEntity<?> admin() {
@@ -76,6 +79,8 @@ public class HomeController {
 
     @GetMapping("/public/test-load-balancing")
     public ResponseEntity<?> testLoadBalancing() {
+        String variable = environment.getProperty("variable-environment");
+        log.info(variable);
         log.info("----------Receive request success----------");
         return ResponseEntity.ok(new ResponseDTO<>("OK", 200));
     }
