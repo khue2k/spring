@@ -93,16 +93,8 @@ public class HomeController {
     }
 
     @GetMapping("public/test")
-    public ResponseEntity<?> testPublicApi() throws Exception {
-//        studentService.saveStudents(Arrays.asList(
-//                new Student("1", "Alice", Student.Gender.FEMALE, 12, Arrays.asList("math", "science")),
-//                new Student("2", "Bob", Student.Gender.MALE, 11, Arrays.asList("history", "geography")),
-//                new Student("3", "Charlie", Student.Gender.MALE, 13, Arrays.asList("biology", "chemistry"))
-//        ));
-
-        List<Student> list = studentService.getListStudent();
-        System.out.println(list);
-
+    public ResponseEntity<?> testPublicApi() {
+        studentService.testAspect();
         return ResponseEntity.ok(new ResponseDTO<>("OK", 200));
     }
 }

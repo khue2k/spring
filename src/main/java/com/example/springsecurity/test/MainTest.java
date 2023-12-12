@@ -1,5 +1,8 @@
 package com.example.springsecurity.test;
 
+import org.aspectj.lang.annotation.Aspect;
+
+@Aspect
 public class MainTest {
     int solve(int n) {
         int result = 0;
