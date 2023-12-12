@@ -1,5 +1,8 @@
 package com.example.springsecurity.test.redis;
 
+import com.example.springsecurity.config.security.ModulePermission;
+import com.example.springsecurity.utils.MODULE;
+import com.example.springsecurity.utils.PERMISSION;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,7 +40,9 @@ public class StudentService {
                 .map(obj -> (Student) obj) // Ép kiểu từ Object về Student
                 .collect(Collectors.toList());
     }
-    public void testAspect(){
+
+    @ModulePermission(module = MODULE.MODULE_A, permission = PERMISSION.READ)
+    public void testAspect() {
         System.out.println("test aspect");
     }
 
