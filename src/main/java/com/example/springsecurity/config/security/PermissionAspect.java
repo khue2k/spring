@@ -9,10 +9,5 @@ import org.springframework.stereotype.Component;
 public class PermissionAspect {
     @Before(value = "@annotation(modulePermission)")
     public void before(ModulePermission modulePermission) {
-        if (modulePermission.module().equals("MODULE_A")) {
-            System.out.println("this is module A");
-        } else {
-            System.out.println("nooooooo");
-        }
     }
 }
