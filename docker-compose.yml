@@ -31,27 +31,27 @@ services:
 
   spring-server-A:
     image: spring-image
-    container_name: spring-server-A
+    container_name: service-A
     ports:
       - "8001:8080"
 
   #server B
   spring-server-B:
     image: spring-image
-    container_name: spring-server-B
+    container_name: service-B
     ports:
       - "8002:8080"
 
   #server C
   spring-server-C:
     image: spring-image
-    container_name: spring-server-C
+    container_name: service-C
     ports:
       - "8003:8080"
 
   #server D
   spring-server-D:
     image: spring-image
-    container_name: spring-server-D
+    container_name: service-D
     ports:
       - "8004:8080"
