@@ -191,20 +191,45 @@ public class MainTest {
         }
     }
 
-    void binarySearch(int a[], int x, int l, int r) {
-        int mid = (r + l) / 2 + 1;
+
+    //tìm kiếm nhị phân
+
+    //solution 1
+//    public int binarySearch(int a[], int x) {
+//        int l = 0;
+//        int r = a.length - 1;
+//        while (l <= r) {
+//            int mid = l + (r - l) / 2;
+//            if (a[mid] == x) {
+//                return a[mid];
+//            } else if (a[mid] > x) {
+//                r = mid - 1;
+//            } else if (a[mid] < x) {
+//                l = mid + 1;
+//            }
+//        }
+//        return -1;
+//    }
+    //solution 2
+
+    public void binarySearch(int a[], int l, int r, int x) {
+        int mid = l + (r - l) / 2;
+        if (l > r) {
+            System.out.println(-1);
+            return;
+        }
         if (a[mid] == x) {
-            System.out.println(a[mid]);
+            System.out.println(x);
         } else if (a[mid] < x) {
-            binarySearch(a, x, mid + 1, r);
-        } else if (x < a[mid]) {
-            binarySearch(a, x, l, mid - 1);
+            binarySearch(a, mid + 1, r, x);
+        } else if (a[mid] > x) {
+            binarySearch(a, l, mid - 1, x);
         }
     }
 
     public static void main(String[] args) {
         MainTest mainTest = new MainTest();
-        mainTest.initData(a);
-        mainTest.binarySearch(a, 10, 0, a.length - 1);
+        int a[] = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        mainTest.binarySearch(a, 0, a.length - 1, 1);
     }
 }
