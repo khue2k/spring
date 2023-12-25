@@ -1,31 +1,11 @@
 package com.example.springsecurity.test;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
-import org.aspectj.lang.annotation.Aspect;
-
-import java.io.*;
-import java.nio.file.Files;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@Aspect
 public class MainTest {
-
-
-    //    private String[] strings = new String[]{"A", "B", "C"};
-//    private StringBuilder result = new StringBuilder();
-//
-    public static String print(int[] a) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < a.length; i++) {
-            builder.append(a[i]);
-        }
-        return builder.toString();
-    }
 
 //    public void binaryString(int i) {
 //        if (i == 5) {
@@ -181,17 +161,6 @@ public class MainTest {
 //        }
 //    }
 
-
-    // tìm kiếm nhị phân Binary search
-    static int[] a = new int[10];
-
-    void initData(int[] a) {
-        for (int i = 0; i < a.length; i++) {
-            a[i] = i;
-        }
-    }
-
-
     //tìm kiếm nhị phân
 
     //solution 1
@@ -212,24 +181,47 @@ public class MainTest {
 //    }
     //solution 2
 
-    public void binarySearch(int a[], int l, int r, int x) {
-        int mid = l + (r - l) / 2;
-        if (l > r) {
-            System.out.println(-1);
-            return;
-        }
-        if (a[mid] == x) {
-            System.out.println(x);
-        } else if (a[mid] < x) {
-            binarySearch(a, mid + 1, r, x);
-        } else if (a[mid] > x) {
-            binarySearch(a, l, mid - 1, x);
+//    public void binarySearch(int a[], int l, int r, int x) {
+//        int mid = l + (r - l) / 2;
+//        if (l > r) {
+//            System.out.println(-1);
+//            return;
+//        }
+//        if (a[mid] == x) {
+//            System.out.println(x);
+//        } else if (a[mid] < x) {
+//            binarySearch(a, mid + 1, r, x);
+//        } else if (a[mid] > x) {
+//            binarySearch(a, l, mid - 1, x);
+//        }
+//    }
+
+
+    // bài toán phân tích số tiền
+    private int[] b = new int[10];
+    private int sum = 0;
+
+    public void print(int[] b) {
+        System.out.println("[" + Arrays.stream(b).mapToObj(operand -> new String(String.valueOf(operand))).reduce((s, s2) -> s.concat("," + s2)).get() + "]");
+    }
+
+    public void Try(int i, int a[], int s) {
+        for (int j = 0; j < a.length; j++) {
+            b[i] = a[j];
+            sum += a[j];
+            if (sum == s)
+                print(b);
+            else
+                Try(i + 1, a, s);
+            sum = 0;
         }
     }
 
+
     public static void main(String[] args) {
-        MainTest mainTest = new MainTest();
-        int a[] = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
-        mainTest.binarySearch(a, 0, a.length - 1, 1);
+//        MainTest mainTest = new MainTest();
+//        int a[] = new int[]{10, 20, 50, 100};
+//        mainTest.Try(0, a, 100);
+        System.out.println(new Date(1703635199));
     }
 }
