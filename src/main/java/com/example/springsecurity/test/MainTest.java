@@ -198,30 +198,46 @@ public class MainTest {
 
 
     // bài toán phân tích số tiền
-    private int[] b = new int[10];
-    private int sum = 0;
+//    private int[] b = new int[10];
+//    private int sum = 0;
+//
+//    public void print(int[] b) {
+//        System.out.println("[" + Arrays.stream(b).mapToObj(operand -> new String(String.valueOf(operand))).reduce((s, s2) -> s.concat("," + s2)).get() + "]");
+//    }
+//
+//    public void Try(int i, int a[], int s) {
+//        for (int j = 0; j < a.length; j++) {
+//            b[i] = a[j];
+//            sum += a[j];
+//            if (sum >= s) {
+//                if (sum == s)
+//                    print(b);
+//            } else
+//                Try(i + 1, a, s);
+//            sum = 0;
+//        }
+//    }
+//
 
-    public void print(int[] b) {
-        System.out.println("[" + Arrays.stream(b).mapToObj(operand -> new String(String.valueOf(operand))).reduce((s, s2) -> s.concat("," + s2)).get() + "]");
-    }
 
-    public void Try(int i, int a[], int s) {
-        for (int j = 0; j < a.length; j++) {
-            b[i] = a[j];
-            sum += a[j];
-            if (sum == s)
-                print(b);
-            else
-                Try(i + 1, a, s);
-            sum = 0;
+    public int threeSumClosest(int[] nums, int target) {
+        int result = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+            int j = i + 1;
+            int k = nums.length - 1;
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+
+            }
         }
-    }
 
+        return result;
+    }
 
     public static void main(String[] args) {
-//        MainTest mainTest = new MainTest();
-//        int a[] = new int[]{10, 20, 50, 100};
-//        mainTest.Try(0, a, 100);
-        System.out.println(new Date(1703635199));
+        MainTest mainTest = new MainTest();
+        int[] a = new int[]{-1, 0, 1, 2, -1, -4};
     }
 }
