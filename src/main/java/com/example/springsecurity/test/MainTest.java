@@ -3,6 +3,7 @@ package com.example.springsecurity.test;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 public class MainTest {
@@ -220,24 +221,57 @@ public class MainTest {
 //
 
 
-    public int threeSumClosest(int[] nums, int target) {
+    public int maxArea(int[] height) {
         int result = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (i > 0 && nums[i] == nums[i - 1])
-                continue;
-            int j = i + 1;
-            int k = nums.length - 1;
-            while (j < k) {
-                int sum = nums[i] + nums[j] + nums[k];
-
+        for (int i = 0; i < height.length - 1; i++) {
+            for (int j = i + 1; j < height.length; j++) {
+                int h = Math.min(height[i], height[j]);
+                int l = j - i;
+                result = Math.max(result, h * l);
             }
         }
-
         return result;
+
     }
 
+    //contest 2
+    public int fibonacci(int n) {
+        int[] a = new int[n];
+        a[0] = 1;
+        a[1] = 1;
+        for (int i = 2; i < n; i++) {
+            a[i] = a[i - 1] + a[i - 2];
+        }
+        for (int i = 0; i < n; i++) {
+            System.out.print(a[i] + " ");
+        }
+        return 0;
+    }
+
+    public void print(int a[]) {
+        for (int i = 0; i < a.length; i++) {
+            System.out.print(a[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public void solve(int a[]) {
+        for (int i = 0; i < a.length - 1; i++) {
+            a[i] = a[i] + a[i + 1];
+        }
+    }
+
+
     public static void main(String[] args) {
-        MainTest mainTest = new MainTest();
-        int[] a = new int[]{-1, 0, 1, 2, -1, -4};
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while (t-- > 0) {
+            int n = scanner.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < a.length; i++) {
+                a[i] = scanner.nextInt();
+            }
+            new MainTest().solve(a);
+        }
     }
 }
