@@ -1,5 +1,6 @@
 package com.example.springsecurity.test;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -261,17 +262,14 @@ public class MainTest {
         }
     }
 
+    public static String formatDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (date == null)
+            return null;
+        return dateFormat.format(date);
+    }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int t = scanner.nextInt();
-        while (t-- > 0) {
-            int n = scanner.nextInt();
-            int[] a = new int[n];
-            for (int i = 0; i < a.length; i++) {
-                a[i] = scanner.nextInt();
-            }
-            new MainTest().solve(a);
-        }
+        System.out.println(MainTest.formatDate(new Date()));
     }
 }

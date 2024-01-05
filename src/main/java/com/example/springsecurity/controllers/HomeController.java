@@ -72,7 +72,7 @@ public class HomeController {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             Stream<String> stream;
             stream = bufferedReader.lines();
-            stream.forEach(s -> System.out.println(s));
+            stream.forEach(System.out::println);
         } catch (Exception e) {
         }
 
