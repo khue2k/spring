@@ -55,3 +55,27 @@ services:
     container_name: service-D
     ports:
       - "8004:8080"
+
+
+  #elastic-search
+  elasticsearch:
+    container_name: elastic-server
+    image: elasticsearch:8.11.3
+    networks:
+      - elastic
+    ports:
+      - "9200:9200"
+
+  #kibana
+  kibana:
+    container_name: kibana-server
+    image: kibana
+    networks:
+      - elastic
+    ports:
+      - "5601:5601"
+
+# config network
+
+networks:
+  elastic:
