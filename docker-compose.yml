@@ -3,7 +3,7 @@ services:
 
   #mySql server
   mysql-server:
-    image: 99afc808f15b
+    image: mysql
     container_name: mysql-server
     command: --default-authentication-plugin=mysql_native_password
     restart: always

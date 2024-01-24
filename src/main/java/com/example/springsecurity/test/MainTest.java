@@ -1,6 +1,14 @@
 package com.example.springsecurity.test;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -269,7 +277,51 @@ public class MainTest {
         return dateFormat.format(date);
     }
 
+
+    public static String convert(long size) {
+        long b = 1;
+        long kb = 1024;
+        long mb = 1024 * 1024;
+        long gb = 1024 * 1024 * 1024;
+        double result = 0;
+        if (size > gb) {
+            result = (double) size / gb;
+            return String.format("%.2f", result) + " GB";
+        } else if (size >= mb && size < gb) {
+            result = (double) size / mb;
+            return String.format("%.2f", result) + " MB";
+        } else if (size >= kb && size < mb) {
+            result = (double) size / kb;
+            return String.format("%.2f", result) + " KB";
+        } else if (size >= b && size < kb) {
+            result = (double) size / b;
+            return String.format("%.2f", result) + " B";
+        }
+        return null;
+    }
+
+    public static String getTimeAgo(long seconds) {
+        if (seconds < 60) {
+            return seconds + " s ago";
+        } else if (seconds < 3600) {
+            long minutes = seconds / 60;
+            return minutes + " m ago";
+        } else if (seconds < 86400) {
+            long hours = seconds / 3600;
+            return hours + " h ago";
+        } else if (seconds < 2592000) {
+            long days = seconds / 86400;
+            return days + " d ago";
+        } else if (seconds < 31536000) {
+            long months = seconds / 2592000;
+            return months + " M ago";
+        } else {
+            long years = seconds / 31536000;
+            return years + " y ago";
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(MainTest.formatDate(new Date()));
+        System.out.println(MainTest.getTimeAgo(190));
     }
 }

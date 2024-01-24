@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>, UserCustomRepository {
     Optional<User> findByEmail(String email);
 
     @Query(value = "update User u set u.numberAttempt= ?1 where u.email= ?2")
     @Modifying
-    void updateFailedAttempts(int failedAttempts,String email);
+    void updateFailedAttempts(int failedAttempts, String email);
 }
