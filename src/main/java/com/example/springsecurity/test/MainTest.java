@@ -1,9 +1,26 @@
 package com.example.springsecurity.test;
 
+import com.example.springsecurity.entities.Person;
+import com.example.springsecurity.reflection.ExcelColumn;
+import com.example.springsecurity.utils.ExcelUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.annotation.*;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -321,7 +338,19 @@ public class MainTest {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(MainTest.getTimeAgo(190));
+    @Data
+    class Person {
+        @ExcelColumn
+        private String id;
+        @ExcelColumn(index = 1)
+        private String name;
+        @ExcelColumn(index = 2)
+        private int age;
+        @ExcelColumn(index = 3)
+        public String address;
+    }
+
+    public static void main(String[] args) throws IOException {
+       Runtime.getRuntime().exec("ipconfig");
     }
 }

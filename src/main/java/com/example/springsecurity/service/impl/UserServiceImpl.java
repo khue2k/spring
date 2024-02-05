@@ -18,6 +18,7 @@ import com.example.springsecurity.config.security.JwtUtils;
 import com.example.springsecurity.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -129,17 +130,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String auth(UserDTO userDTO) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("Login : " + SecurityContextHolder.getContext().getAuthentication().getName());
-        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
-        if (user.getNumberAttempt() > 0) {
-            user.setNumberAttempt(0);
-            userRepository.save(user);
+        try {
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            System.out.println("Login : " + SecurityContextHolder.getContext().getAuthentication().getName());
+            User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
+            if (user.getNumberAttempt() > 0) {
+                user.setNumberAttempt(0);
+                userRepository.save(user);
+            }
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return jwtUtils.generateToken(userDetails.getUsername());
+        }catch (InternalAuthenticationServiceException e){
+            return "Authentication failed";
         }
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return jwtUtils.generateToken(userDetails.getUsername());
     }
 
     @Override

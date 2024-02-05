@@ -19,6 +19,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+//com.example.springsecurity.controllers.AuthController
 public class AuthController {
     private final UserService userService;
 
@@ -70,7 +71,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(new ResponseDTO<>("Login success !", 200, userService.auth(userDTO)));
+        return ResponseEntity.ok(new ResponseDTO<>("OK", 200, userService.auth(userDTO)));
     }
 
     @PostMapping("/signout")
