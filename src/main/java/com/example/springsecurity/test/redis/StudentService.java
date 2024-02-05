@@ -43,7 +43,7 @@ public class StudentService {
 
     @ModulePermission(module = MODULE.MODULE_A, permission = PERMISSION.READ)
     public void testAspect() {
-        System.out.println("test aspect");
+//        System.out.println("test aspect");
     }
 
 }
