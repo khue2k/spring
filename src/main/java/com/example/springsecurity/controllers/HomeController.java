@@ -9,6 +9,7 @@ import io.minio.*;
 import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 @RestController
@@ -38,6 +40,8 @@ public class HomeController {
 
     private final StudentService studentService;
     private final StudentRepository studentRepository;
+
+    private final MessageSource messageSource;
 
     @GetMapping("/admin")
     public ResponseEntity<?> admin() {
@@ -67,7 +71,7 @@ public class HomeController {
     }
 
     @GetMapping("/public")
-    public ResponseEntity<?> publicApi() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public ResponseEntity<?> publicApi() {
         try (InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket("bucket-test").object("file/abc.txt").build())) {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             Stream<String> stream;
@@ -94,7 +98,6 @@ public class HomeController {
 
     @GetMapping("public/test")
     public ResponseEntity<?> testPublicApi() {
-        studentService.testAspect();
         return ResponseEntity.ok(new ResponseDTO<>("OK", 200));
     }
 }

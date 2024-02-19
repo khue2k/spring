@@ -1,0 +1,5 @@
+version : 0.2
+phases :
+  pre_build :
+    command :
+      - echo Logging into amazon ECR start on `date`
