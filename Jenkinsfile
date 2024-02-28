@@ -7,8 +7,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'cat /home/huhu.txt'
+                sh 'echo DuongXuanKhue'
             }
         }
-
     }
 }
