@@ -8,6 +8,7 @@ pipeline {
             steps {
                 sh 'cat /home/huhu.txt'
                 sh 'echo DuongXuanKhue'
+                echo "Build number is ${currentBuild.number}"
             }
         }
     }
