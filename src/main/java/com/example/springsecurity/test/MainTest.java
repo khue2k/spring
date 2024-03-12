@@ -2,6 +2,7 @@ package com.example.springsecurity.test;
 
 import com.example.springsecurity.reflection.ExcelColumn;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -328,7 +329,9 @@ public class MainTest {
         public String address;
     }
 
-    public static void main(String[] args) throws IOException {
-       Runtime.getRuntime().exec("ipconfig");
+    public static void main(String[] args) {
+        Integer a = 100;
+        Integer b = 100;
+        System.out.println(a == b);
     }
 }

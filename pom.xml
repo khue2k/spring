@@ -12,6 +12,7 @@
     <artifactId>spring</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-security</name>
+    <packaging>war</packaging>
     <description>spring-security</description>
     <properties>
         <java.version>1.8</java.version>
@@ -50,13 +51,6 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>3.17</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
-        <dependency>
-            <groupId>com.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>5.7.1</version>
         </dependency>
 
         <dependency>
@@ -171,10 +165,12 @@
             <artifactId>json</artifactId>
             <version>20230618</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter-aop</artifactId>-->
-        <!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <version>2.4.0</version>
+        </dependency>
     </dependencies>
 
 

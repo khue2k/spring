@@ -1,19 +1,10 @@
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
-
-@Component
-
+@SpringBootTest
 public class MainTest {
     @Test
-    void test() throws JsonProcessingException {
-    }
+    void test() {
 
-
-    public static void main(String[] args) {
-        System.out.println(new Date());
     }
 }

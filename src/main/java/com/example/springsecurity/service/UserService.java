@@ -15,4 +15,6 @@ public interface UserService {
     void forgotPassword(String userDTO);
 
     boolean changePassword(String token, UserDTO userDTO);
+
+    User getUserById(Long id);
 }

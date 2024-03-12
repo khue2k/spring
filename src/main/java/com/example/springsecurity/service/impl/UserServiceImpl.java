@@ -129,6 +129,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
     public String auth(UserDTO userDTO) {
         try {
             Authentication authentication = authenticationManager
@@ -142,7 +147,7 @@ public class UserServiceImpl implements UserService {
             }
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             return jwtUtils.generateToken(userDetails.getUsername());
-        }catch (InternalAuthenticationServiceException e){
+        } catch (InternalAuthenticationServiceException e) {
             return "Authentication failed";
         }
     }
