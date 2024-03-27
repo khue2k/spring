@@ -1,9 +1,11 @@
 package com.example.springsecurity.controllers;
 
 import com.example.springsecurity.dtos.HttpResponse;
+import com.example.springsecurity.dtos.JwtResponseDTO;
 import com.example.springsecurity.dtos.ResponseDTO;
 import com.example.springsecurity.dtos.UserDTO;
 import com.example.springsecurity.entities.User;
+import com.example.springsecurity.service.RefreshTokenService;
 import com.example.springsecurity.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -22,6 +24,7 @@ import java.util.Objects;
 //com.example.springsecurity.controllers.AuthController
 public class AuthController {
     private final UserService userService;
+    private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/register")
     public ResponseEntity<HttpResponse> register(@RequestBody UserDTO userDTO) {
@@ -71,11 +74,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(new ResponseDTO<>("OK", 200, userService.auth(userDTO)));
+        String jwt = userService.auth(userDTO);
+        String refreshToken = refreshTokenService.createRefreshToken(userDTO.getEmail()).getToken();
+        JwtResponseDTO jwtResponseDTO = new JwtResponseDTO(jwt, refreshToken);
+        return ResponseEntity.ok(new ResponseDTO<>("OK", 200, jwtResponseDTO));
     }
 
-    @PostMapping("/signout")
-    public ResponseEntity<?> signout() {
+    @PostMapping("/sign-out")
+    public ResponseEntity<?> signOut() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!Objects.equals(principal.toString(), "anonymousUser")) {
 
@@ -85,6 +91,7 @@ public class AuthController {
 
     @PostMapping("/auth/refresh-token")
     public ResponseEntity<?> refreshToken() {
+
         return ResponseEntity.ok(new ResponseDTO<>("Test OK", 200));
     }
 

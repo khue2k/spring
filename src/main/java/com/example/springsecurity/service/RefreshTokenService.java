@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 public interface RefreshTokenService {
 
     RefreshToken findByToken(String token);
-    RefreshToken createRefreshToken();
-    void verifyExpiration(String refreshToken);
+
+    RefreshToken createRefreshToken(String username);
+
+    RefreshToken verifyExpiration(String refreshToken);
 }

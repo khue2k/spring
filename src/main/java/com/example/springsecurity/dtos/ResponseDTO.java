@@ -18,4 +18,8 @@ public class ResponseDTO<T> {
         this.status = status;
         this.data = data;
     }
+
+    public ResponseDTO() {
+
+    }
 }

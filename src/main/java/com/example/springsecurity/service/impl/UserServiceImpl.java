@@ -133,6 +133,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+
     @Override
     public String auth(UserDTO userDTO) {
         try {

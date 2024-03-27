@@ -10,7 +10,13 @@ import org.springframework.web.context.request.WebRequest;
 public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseDTO handlerAllException(Exception e, WebRequest request) {
+    public ResponseDTO handlerAllException(Exception e) {
         return new ResponseDTO(e.getLocalizedMessage(), 400);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseDTO handlerRuntimeException(RuntimeException e) {
+        return new ResponseDTO(e.getMessage(), 400);
     }
 }
