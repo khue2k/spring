@@ -1,10 +1,14 @@
 package com.example.springsecurity.test;
 
 import com.example.springsecurity.reflection.ExcelColumn;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import lombok.Data;
 import org.apache.catalina.Executor;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -333,25 +337,6 @@ public class MainTest {
     }
 
     public static void main(String[] args) {
-        int[] numbers = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int numberThread = Runtime.getRuntime().availableProcessors();
-        ExecutorService executorService = Executors.newFixedThreadPool(numberThread);
-        for (int number : numbers) {
-            executorService.execute(() -> {
-                int square = calculateSquare(number);
-                System.out.println("Square of " + number + " is " + square);
-            });
-        }
-        executorService.shutdown();
-        System.out.println(Runtime.getRuntime().availableProcessors());
-    }
 
-    public static int calculateSquare(int number) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
-        return number * number;
     }
 }
