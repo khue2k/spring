@@ -13,6 +13,7 @@ import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -26,6 +27,11 @@ import java.util.Objects;
 public class AuthController {
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
+
+    @PostMapping("/create-user")
+    public ResponseEntity<String> createUser(@RequestBody @Valid UserDTO userDTO) {
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping("/register")
     public ResponseEntity<HttpResponse> register(@RequestBody UserDTO userDTO) {
