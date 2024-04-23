@@ -1,15 +1,17 @@
 package com.example.springsecurity.test;
 
+import com.example.springsecurity.dtos.UserDTO;
 import com.example.springsecurity.reflection.ExcelColumn;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.catalina.Executor;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -325,8 +327,8 @@ public class MainTest {
         }
     }
 
-    @Data
-    class Person {
+
+    class Person implements Serializable {
         @ExcelColumn
         private String id;
         @ExcelColumn(index = 1)
@@ -338,9 +340,18 @@ public class MainTest {
     }
 
     public static void main(String[] args) {
-        ThreadLocal<Integer> integerThreadLocal = new ThreadLocal<>();
-        integerThreadLocal.set(11);
-        System.out.println(integerThreadLocal.get());
-
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("songlhecole@gmail.com");
+        userDTO.setLastName("khue1234");
+        try {
+            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\ADMIN\\Documents\\spring\\src\\test\\test.data");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(userDTO);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
     }
 }
