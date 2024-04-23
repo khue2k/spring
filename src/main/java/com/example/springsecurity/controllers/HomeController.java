@@ -33,15 +33,8 @@ import java.util.stream.Stream;
 @Slf4j
 public class HomeController {
     private final UserService userService;
-
     private final MinioClient minioClient;
-
     private final Environment environment;
-
-    private final StudentService studentService;
-    private final StudentRepository studentRepository;
-
-    private final MessageSource messageSource;
 
     @GetMapping("/admin")
     public ResponseEntity<?> admin() {

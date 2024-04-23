@@ -2,6 +2,7 @@ package com.example.springsecurity.exception;
 
 import com.example.springsecurity.dtos.ResponseDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -18,5 +19,12 @@ public class ExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseDTO handlerRuntimeException(RuntimeException e) {
         return new ResponseDTO(e.getMessage(), 400);
+    }
+
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseDTO handInvalidArgument(MethodArgumentNotValidException ex) {
+        return new ResponseDTO(ex.getMessage(), 400);
     }
 }

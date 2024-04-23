@@ -1,5 +1,6 @@
 package com.example.springsecurity.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;

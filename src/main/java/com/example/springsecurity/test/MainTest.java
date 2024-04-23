@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -337,6 +338,9 @@ public class MainTest {
     }
 
     public static void main(String[] args) {
+        ThreadLocal<Integer> integerThreadLocal = new ThreadLocal<>();
+        integerThreadLocal.set(11);
+        System.out.println(integerThreadLocal.get());
 
     }
 }

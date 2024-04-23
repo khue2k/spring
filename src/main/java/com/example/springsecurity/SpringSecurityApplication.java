@@ -14,8 +14,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class SpringSecurityApplication implements ApplicationRunner {
-    @Value("${huhu}")
-    private String value;
+
 
     public static void main(String[] args) {
         SpringApplication.run(SpringSecurityApplication.class);
@@ -24,6 +23,6 @@ public class SpringSecurityApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("this is value: " + value);
+
     }
 }

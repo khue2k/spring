@@ -8,6 +8,7 @@ import com.example.springsecurity.entities.User;
 import com.example.springsecurity.service.RefreshTokenService;
 import com.example.springsecurity.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,14 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-//com.example.springsecurity.controllers.AuthController
+@Slf4j
 public class AuthController {
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/register")
     public ResponseEntity<HttpResponse> register(@RequestBody UserDTO userDTO) {
+        log.info("Controller: register user");
         try {
             User user = userService.saveUser(userDTO);
             Map<String, Object> map = new HashMap<>();

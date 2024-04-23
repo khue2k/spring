@@ -16,7 +16,10 @@ import com.example.springsecurity.service.UserService;
 import com.example.springsecurity.utils.ERole;
 import com.example.springsecurity.config.security.JwtUtils;
 import com.example.springsecurity.utils.Utils;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,27 +34,30 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
+    UserRepository userRepository;
 
-    private final AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
 
-    private final PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
-    private final RoleRepository roleRepository;
+    RoleRepository roleRepository;
 
-    private final JwtUtils jwtUtils;
+    JwtUtils jwtUtils;
 
-    private final EmailService emailService;
+    EmailService emailService;
 
-    private final ConfirmationRepository confirmationRepository;
+    ConfirmationRepository confirmationRepository;
 
-    private final ConfirmPasswordRepository confirmPasswordRepository;
+    ConfirmPasswordRepository confirmPasswordRepository;
 
 
     @Override
     public User saveUser(UserDTO userDTO) {
         try {
+            log.info("Service : create user");
             if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
                 throw new ExistEmailException();
             }
