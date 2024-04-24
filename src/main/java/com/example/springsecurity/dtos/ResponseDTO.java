@@ -17,7 +17,7 @@ public class ResponseDTO<T> {
         this.status = status;
     }
 
-    public ResponseDTO success(T t) {
+    public static <T> ResponseDTO success(T t) {
         return ResponseDTO.builder()
                 .data(t)
                 .message("OK")
