@@ -27,7 +27,7 @@ services:
       MINIO_ROOT_PASSWORD: khue1234
     command: server --console-address ":9001" /data
 
-  #server A
+  #container A
 
   spring-server-A:
     image: spring-image
@@ -35,21 +35,21 @@ services:
     ports:
       - "8001:8080"
 
-  #server B
+  #container B
   spring-server-B:
     image: spring-image
     container_name: service-B
     ports:
       - "8002:8080"
 
-  #server C
+  #container C
   spring-server-C:
     image: spring-image
     container_name: service-C
     ports:
       - "8003:8080"
 
-  #server D
+  #container D
   spring-server-D:
     image: spring-image
     container_name: service-D
