@@ -1,8 +1,17 @@
 #Database
-DATABASE_URL: jdbc:h2:mem:mydb
-DATABASE_USERNAME: sa
-DATABASE_PASSWORD:
-DATABASE_DRIVER: org.h2.Driver
+
+#H2 database
+#DATABASE_URL: jdbc:h2:mem:mydb
+#DATABASE_USERNAME: sa
+#DATABASE_PASSWORD:
+#DATABASE_DRIVER: org.h2.Driver
+
+#MySql configuration
+
+DATABASE_URL: jdbc:mysql://localhost:3306/test
+DATABASE_USERNAME: root
+DATABASE_PASSWORD: root
+DATABASE_DRIVER: com.mysql.cj.jdbc.Driver
 
 #App
 

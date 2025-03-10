@@ -178,6 +178,13 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <version>2.4.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>5.6.15.Final</version> <!-- Phiên bản tùy theo Hibernate của bạn -->
+        </dependency>
+
     </dependencies>
 
 
