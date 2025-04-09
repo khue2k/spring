@@ -3,10 +3,12 @@ package com.example.springsecurity.dtos;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.http.HttpStatus;
 
 @Getter
 @Builder
+@Setter
 public class ResponseDTO<T> {
     private String message;
     private int status;

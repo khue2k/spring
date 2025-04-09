@@ -81,11 +81,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+    public ResponseDTO<JwtResponseDTO> login(@RequestBody UserDTO userDTO) {
         String jwt = userService.auth(userDTO);
         String refreshToken = refreshTokenService.createRefreshToken(userDTO.getEmail()).getToken();
         JwtResponseDTO jwtResponseDTO = new JwtResponseDTO(jwt, refreshToken);
-        return ResponseEntity.ok(new ResponseDTO<>("OK", 200, jwtResponseDTO));
+        return new ResponseDTO<>("OK", 200, jwtResponseDTO);
     }
 
     @PostMapping("/sign-out")

@@ -79,8 +79,9 @@ public class HomeController {
         return ResponseEntity.ok(new ResponseDTO<>("OK", 200));
     }
 
-    @GetMapping("public/test")
-    public ResponseEntity<?> testPublicApi() {
-        return ResponseEntity.ok(new ResponseDTO<>("OK", 200));
+    @GetMapping("/public/test")
+    public String  testPublicApi() {
+//        return ResponseEntity.ok(new ResponseDTO<>("OK", 200, "Test controller"));
+        return "Hello world";
     }
 }
