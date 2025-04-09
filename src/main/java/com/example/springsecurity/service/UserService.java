@@ -16,5 +16,4 @@ public interface UserService {
 
     boolean changePassword(String token, UserDTO userDTO);
 
-    User getUserById(Long id);
 }

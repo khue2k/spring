@@ -57,7 +57,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(UserDTO userDTO) {
         try {
-            log.info("Service : create user");
             if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
                 throw new ExistEmailException();
             }
@@ -135,28 +134,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
-
-
-    @Override
     public String auth(UserDTO userDTO) {
-        try {
-            Authentication authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            System.out.println("Login : " + SecurityContextHolder.getContext().getAuthentication().getName());
-            User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
-            if (user.getNumberAttempt() > 0) {
-                user.setNumberAttempt(0);
-                userRepository.save(user);
-            }
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return jwtUtils.generateToken(userDetails.getUsername());
-        } catch (InternalAuthenticationServiceException e) {
-            return "Authentication failed";
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
+        if (user.getNumberAttempt() > 0) {
+            user.setNumberAttempt(0);
+            userRepository.save(user);
         }
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return jwtUtils.generateToken(userDetails.getUsername());
     }
 
     @Override

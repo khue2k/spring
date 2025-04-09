@@ -185,6 +185,13 @@
             <version>5.6.15.Final</version> <!-- Phiên bản tùy theo Hibernate của bạn -->
         </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
 

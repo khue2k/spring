@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long>, UserCustomRep
     @Query(value = "update User u set u.numberAttempt= ?1 where u.email= ?2")
     @Modifying
     void updateFailedAttempts(int failedAttempts, String email);
+
+    boolean existsByEmail(String email);
 }

@@ -3,18 +3,22 @@ package com.example.springsecurity.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
+import org.hibernate.envers.Audited;
 
-import java.util.Objects;
+import javax.persistence.*;
 
+@Audited
 @Data
-@RedisHash(timeToLive = 30 * 60 * 1000,value = "ptit")
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "phone")
+@Entity
 public class Phone {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "number")
     private String number;
 
     public Phone(String number) {

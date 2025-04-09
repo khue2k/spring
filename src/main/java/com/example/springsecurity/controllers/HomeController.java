@@ -2,14 +2,9 @@ package com.example.springsecurity.controllers;
 
 import com.example.springsecurity.dtos.ResponseDTO;
 import com.example.springsecurity.service.UserService;
-import com.example.springsecurity.test.redis.Student;
-import com.example.springsecurity.test.redis.StudentRepository;
-import com.example.springsecurity.test.redis.StudentService;
 import io.minio.*;
-import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -18,13 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.Locale;
 import java.util.stream.Stream;
 
 @RestController

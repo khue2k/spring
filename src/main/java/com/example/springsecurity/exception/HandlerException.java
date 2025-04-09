@@ -3,6 +3,7 @@ package com.example.springsecurity.exception;
 import com.example.springsecurity.dtos.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,6 +27,11 @@ public class HandlerException {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<String> handInvalidArgument(MethodArgumentNotValidException e) {
         return ResponseEntity.badRequest().body(e.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(value = InternalAuthenticationServiceException.class)
+    public ResponseEntity<ResponseDTO<String>> handingUnAuthoriseException(InternalAuthenticationServiceException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO<>("Unauthorized", 401));
     }
 
 }
