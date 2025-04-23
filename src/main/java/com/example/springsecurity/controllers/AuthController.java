@@ -24,6 +24,7 @@ import java.util.Objects;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin("*")
 public class AuthController {
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
