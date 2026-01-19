@@ -10,5 +10,7 @@ public interface RefreshTokenService {
 
     RefreshToken createRefreshToken(String username);
 
-    RefreshToken verifyExpiration(String refreshToken);
+    boolean verifyExpiration(String refreshToken);
+
+    RefreshToken findValidByToken(String token);
 }

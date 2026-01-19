@@ -96,10 +96,11 @@ public class AuthController {
     }
 
 
+    //get new jwt token by refresh token
     @PostMapping("/auth/refresh-token")
-    public ResponseEntity<?> refreshToken() {
-
-        return ResponseEntity.ok(new ResponseDTO<>("Test OK", 200));
+    public ResponseDTO<JwtResponseDTO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
+        JwtResponseDTO responseDTO = userService.refreshToken(refreshToken);
+        return new ResponseDTO<>("Test OK", 200, responseDTO);
     }
 
     @PostMapping("/forgot-password")

@@ -1,12 +1,15 @@
 package com.example.springsecurity.service.impl;
 
+import com.example.springsecurity.dtos.JwtResponseDTO;
 import com.example.springsecurity.dtos.UserDTO;
 import com.example.springsecurity.entities.*;
 import com.example.springsecurity.exception.ExistEmailException;
 import com.example.springsecurity.exception.ExistUsernameException;
+import com.example.springsecurity.exception.NotFoundException;
 import com.example.springsecurity.exception.ServerException;
 import com.example.springsecurity.reposiroty.*;
 import com.example.springsecurity.service.EmailService;
+import com.example.springsecurity.service.RefreshTokenService;
 import com.example.springsecurity.service.UserService;
 import com.example.springsecurity.utils.ERole;
 import com.example.springsecurity.config.security.JwtUtils;
@@ -16,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialException;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -52,6 +55,10 @@ public class UserServiceImpl implements UserService {
     ConfirmPasswordRepository confirmPasswordRepository;
 
     TokenLogoutRepository tokenLogoutRepository;
+
+    RefreshTokenRepository refreshTokenRepository;
+
+    RefreshTokenService refreshTokenService;
 
     @Override
     public User saveUser(UserDTO userDTO) {
@@ -144,6 +151,28 @@ public class UserServiceImpl implements UserService {
         tokenLogout.setValue(jwtToken);
         tokenLogoutRepository.save(tokenLogout);
         return true;
+    }
+
+    @Override
+    public JwtResponseDTO refreshToken(String refreshToken) {
+        JwtResponseDTO responseDTO = new JwtResponseDTO();
+        String jwtToken;
+        // find anh check refresh token expiration
+        RefreshToken refreshToken1 = refreshTokenService.findValidByToken(refreshToken);
+
+        //delete old refresh token
+        refreshTokenRepository.delete(refreshToken1);
+
+        //create new jwt token
+        User user = refreshToken1.getUserInfo();
+        jwtToken = jwtUtils.generateToken(user.getEmail());
+        //create new refresh token
+        RefreshToken refreshTokenNew = refreshTokenService.createRefreshToken(user.getEmail());
+        refreshTokenRepository.save(refreshTokenNew);
+
+        responseDTO.setJwt(jwtToken);
+        responseDTO.setRefreshToken(refreshTokenNew.getToken());
+        return responseDTO;
     }
 
     @Override

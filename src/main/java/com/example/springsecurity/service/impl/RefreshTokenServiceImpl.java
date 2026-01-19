@@ -1,6 +1,7 @@
 package com.example.springsecurity.service.impl;
 
 import com.example.springsecurity.entities.RefreshToken;
+import com.example.springsecurity.exception.ServerException;
 import com.example.springsecurity.reposiroty.RefreshTokenRepository;
 import com.example.springsecurity.reposiroty.UserRepository;
 import com.example.springsecurity.service.RefreshTokenService;
@@ -19,7 +20,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public RefreshToken findByToken(String token) {
-        return null;
+        return refreshTokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Refresh token not found !"));
     }
 
     @Override
@@ -32,10 +33,18 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
-    public RefreshToken verifyExpiration(String token) {
+    public boolean verifyExpiration(String token) {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Refresh token not found !"));
         if (refreshToken.getExpireDate().isBefore(Instant.now()))
-            throw new RuntimeException("Refresh token has expiration ! Please login again to continue !");
+            throw new ServerException("Refresh token has expiration ! Please login again to continue !");
+        return true;
+    }
+
+    @Override
+    public RefreshToken findValidByToken(String token) {
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Refresh token not found !"));
+        if (refreshToken.getExpireDate().isBefore(Instant.now()))
+            throw new ServerException("Refresh token has expiration ! Please login again to continue !");
         return refreshToken;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.springsecurity.service;
 
+import com.example.springsecurity.dtos.JwtResponseDTO;
 import com.example.springsecurity.dtos.UserDTO;
 import com.example.springsecurity.entities.User;
 
@@ -18,4 +19,5 @@ public interface UserService {
 
     boolean logOut(String jwtToken);
 
+    JwtResponseDTO refreshToken(String refreshToken);
 }
