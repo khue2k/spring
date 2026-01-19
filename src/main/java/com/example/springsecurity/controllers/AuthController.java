@@ -89,13 +89,10 @@ public class AuthController {
         return new ResponseDTO<>("OK", 200, jwtResponseDTO);
     }
 
-    @PostMapping("/sign-out")
-    public ResponseEntity<?> signOut() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!Objects.equals(principal.toString(), "anonymousUser")) {
-
-        }
-        return null;
+    @PostMapping("/log-out")
+    public ResponseDTO<String> signOut(@RequestParam("token") String token) {
+        userService.logOut(token);
+        return new ResponseDTO<>("OK", 200, "Log out successful");
     }
 
 

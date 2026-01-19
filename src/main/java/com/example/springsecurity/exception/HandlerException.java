@@ -34,4 +34,10 @@ public class HandlerException {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO<>("Unauthorized", 401));
     }
 
+    @ExceptionHandler(ServerException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseDTO handlerAllServerException(ServerException e) {
+        return new ResponseDTO("ERROR", 400, e.getLocalizedMessage());
+    }
+
 }

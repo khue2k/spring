@@ -1,16 +1,11 @@
 package com.example.springsecurity.service.impl;
 
 import com.example.springsecurity.dtos.UserDTO;
-import com.example.springsecurity.entities.ConfirmPassword;
-import com.example.springsecurity.entities.Confirmation;
-import com.example.springsecurity.entities.Role;
-import com.example.springsecurity.entities.User;
+import com.example.springsecurity.entities.*;
 import com.example.springsecurity.exception.ExistEmailException;
 import com.example.springsecurity.exception.ExistUsernameException;
-import com.example.springsecurity.reposiroty.ConfirmPasswordRepository;
-import com.example.springsecurity.reposiroty.ConfirmationRepository;
-import com.example.springsecurity.reposiroty.RoleRepository;
-import com.example.springsecurity.reposiroty.UserRepository;
+import com.example.springsecurity.exception.ServerException;
+import com.example.springsecurity.reposiroty.*;
 import com.example.springsecurity.service.EmailService;
 import com.example.springsecurity.service.UserService;
 import com.example.springsecurity.utils.ERole;
@@ -30,12 +25,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.sql.rowset.serial.SerialException;
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Transactional
 public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
@@ -53,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
     ConfirmPasswordRepository confirmPasswordRepository;
 
+    TokenLogoutRepository tokenLogoutRepository;
 
     @Override
     public User saveUser(UserDTO userDTO) {
@@ -121,16 +120,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changePassword(String token, UserDTO userDTO) {
+    public void changePassword(String token, UserDTO userDTO) {
         Optional<ConfirmPassword> confirmPasswordOptional = confirmPasswordRepository.findByToken(token);
         if (confirmPasswordOptional.isPresent()) {
             ConfirmPassword confirmPassword = confirmPasswordOptional.get();
             User user = userRepository.findByEmail(confirmPassword.getUser().getEmail()).orElseThrow(() -> new UsernameNotFoundException("Email not found !"));
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             userRepository.save(user);
-            return true;
         }
-        return false;
+    }
+
+    @Override
+    public boolean logOut(String jwtToken) {
+        if (!jwtUtils.validateToken(jwtToken)) {
+            throw new ServerException("Token invalid");
+        }
+        if (tokenLogoutRepository.existsByValue(jwtToken)) {
+            throw new ServerException("Token already logged out");
+        }
+        TokenLogout tokenLogout = new TokenLogout();
+        tokenLogout.setCreateAt(new Date());
+        tokenLogout.setCreateBy(jwtUtils.getUsername(jwtToken));
+        tokenLogout.setValue(jwtToken);
+        tokenLogoutRepository.save(tokenLogout);
+        return true;
     }
 
     @Override

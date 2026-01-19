@@ -81,7 +81,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/api/public/**").permitAll()
-                .antMatchers("/api/logout").permitAll()
+                .antMatchers("/api/log-out").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/create-user").permitAll()

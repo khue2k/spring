@@ -1,8 +1,10 @@
 package com.example.springsecurity.config.security;
 
 import com.example.springsecurity.entities.User;
+import com.example.springsecurity.reposiroty.TokenLogoutRepository;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,8 @@ public class JwtUtils {
     @Value("${app.jwtRefreshExpiration}")
     private Long jwtRefreshExpiration;
 
+    @Autowired
+    private TokenLogoutRepository tokenLogoutRepository;
 
     //tạo ra token lưu trong cookies với flag là httpOnly
     public ResponseCookie generateJwtCookies(User user) {
@@ -98,6 +102,11 @@ public class JwtUtils {
             log.error("JWT claims string is empty.");
         }
         return false;
+    }
+
+
+    public boolean checkTokenLogout(String token) {
+        return tokenLogoutRepository.existsByValue(token);
     }
 
 }

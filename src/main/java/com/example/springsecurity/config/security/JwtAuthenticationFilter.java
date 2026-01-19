@@ -1,6 +1,7 @@
 package com.example.springsecurity.config.security;
 
 import com.example.springsecurity.entities.User;
+import com.example.springsecurity.exception.ServerException;
 import com.example.springsecurity.reposiroty.UserRepository;
 import com.example.springsecurity.service.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         String token = getToken(request);
         try {
+            //Check token logout
+            if (token != null && jwtUtils.checkTokenLogout(token))
+                throw new ServerException("Token already logged out");
             if (token != null && jwtUtils.validateToken(token)) {
                 String userName = jwtUtils.getUsername(token);
                 Optional<User> optionalUser = userRepository.findByEmail(userName);
