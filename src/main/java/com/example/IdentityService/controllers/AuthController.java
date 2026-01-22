@@ -1,0 +1,115 @@
+package com.example.IdentityService.controllers;
+
+import com.example.IdentityService.dtos.HttpResponse;
+import com.example.IdentityService.dtos.JwtResponseDTO;
+import com.example.IdentityService.dtos.ResponseDTO;
+import com.example.IdentityService.dtos.UserDTO;
+import com.example.IdentityService.entities.User;
+import com.example.IdentityService.service.RefreshTokenService;
+import com.example.IdentityService.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api")
+@RequiredArgsConstructor
+@Slf4j
+@CrossOrigin("*")
+public class AuthController {
+    private final UserService userService;
+    private final RefreshTokenService refreshTokenService;
+
+    @PostMapping("/create-user")
+    public ResponseEntity<String> createUser(@RequestBody @Valid UserDTO userDTO) {
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<HttpResponse> register(@RequestBody UserDTO userDTO) {
+        log.info("Controller: register user");
+        try {
+            User user = userService.saveUser(userDTO);
+            Map<String, Object> map = new HashMap<>();
+            map.put("user", user);
+            return ResponseEntity.created(URI.create("")).body(
+                    HttpResponse.builder()
+                            .timeStamp(LocalDateTime.now().toString())
+                            .message("User created")
+                            .status(HttpStatus.CREATED)
+                            .statusCode(HttpStatus.CREATED.value())
+                            .data(map)
+                            .build()
+            );
+        } catch (Exception e) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("user", "ERROR");
+            return ResponseEntity.created(URI.create("")).body(
+                    HttpResponse.builder()
+                            .timeStamp(LocalDateTime.now().toString())
+                            .message("User invalid")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .data(map)
+                            .build()
+            );
+        }
+    }
+
+    @GetMapping("/confirm")
+    public ResponseEntity<HttpResponse> confirm(@RequestParam("token") String token) {
+        boolean isSuccess = userService.verifyToken(token);
+        Map<String, Object> map = new HashMap<>();
+        map.put("Result : ", isSuccess);
+        return ResponseEntity.ok().body(
+                HttpResponse.builder()
+                        .timeStamp(LocalDateTime.now().toString())
+                        .message("Account verified")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
+                        .data(map)
+                        .build()
+        );
+    }
+
+    @PostMapping("/login")
+    public ResponseDTO<JwtResponseDTO> login(@RequestBody UserDTO userDTO) {
+        String jwt = userService.auth(userDTO);
+        String refreshToken = refreshTokenService.createRefreshToken(userDTO.getEmail()).getToken();
+        JwtResponseDTO jwtResponseDTO = new JwtResponseDTO(jwt, refreshToken);
+        return new ResponseDTO<>("OK", 200, jwtResponseDTO);
+    }
+
+    @PostMapping("/log-out")
+    public ResponseDTO<String> signOut(@RequestParam("token") String token) {
+        userService.logOut(token);
+        return new ResponseDTO<>("OK", 200, "Log out successful");
+    }
+
+
+    //get new jwt token by refresh token
+    @PostMapping("/auth/refresh-token")
+    public ResponseDTO<JwtResponseDTO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
+        JwtResponseDTO responseDTO = userService.refreshToken(refreshToken);
+        return new ResponseDTO<>("Test OK", 200, responseDTO);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody String email) {
+        userService.forgotPassword(email);
+        return ResponseEntity.ok(new ResponseDTO<>("Successful", 200));
+    }
+
+    @PostMapping("/confirm-reset-password")
+    public ResponseEntity<?> changePassword(@RequestBody UserDTO userDTO, @RequestParam(name = "token") String token) {
+        userService.changePassword(token, userDTO);
+        return ResponseEntity.ok(new ResponseDTO<>("Change password successful", 200));
+    }
+}
