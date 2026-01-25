@@ -17,13 +17,6 @@ public class HandlerException {
         return new ResponseDTO(e.getLocalizedMessage(), 400);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseDTO handlerRuntimeException(RuntimeException e) {
-        return new ResponseDTO(e.getMessage(), 400);
-    }
-
-
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<String> handInvalidArgument(MethodArgumentNotValidException e) {
         return ResponseEntity.badRequest().body(e.getLocalizedMessage());
@@ -38,6 +31,12 @@ public class HandlerException {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseDTO handlerAllServerException(ServerException e) {
         return new ResponseDTO("ERROR", 400, e.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseDTO> handlerAllException(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(e.getLocalizedMessage(), 400));
     }
 
 }

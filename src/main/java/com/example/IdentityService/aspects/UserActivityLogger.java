@@ -15,7 +15,7 @@ public class UserActivityLogger {
     private static final Logger logger = LoggerFactory.getLogger(UserActivityLogger.class);
 
     //named pointcut
-    @Around(value = "execution(* com.example.springsecurity.controllers.AuthController.*(..))")
+//    @Around(value = "execution(*com.example.IdentityService.controllers.AuthController.*(..))")
     public Object logUserActivity(ProceedingJoinPoint joinPoint) throws Throwable {
         String method = joinPoint.getSignature().getName();
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Slf4j
 public class PerformanceAspect {
-//    @Pointcut("within(com.example.springsecurity.controllers.*)")
+//    @Pointcut("within(com.example.IdentityServiceApp.controllers.*)")
 //    public void controllerMethods() {
 //
 //    }

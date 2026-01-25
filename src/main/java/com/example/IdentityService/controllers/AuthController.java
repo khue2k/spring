@@ -81,10 +81,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseDTO<JwtResponseDTO> login(@RequestBody UserDTO userDTO) {
-        String jwt = userService.auth(userDTO);
-        String refreshToken = refreshTokenService.createRefreshToken(userDTO.getEmail()).getToken();
-        JwtResponseDTO jwtResponseDTO = new JwtResponseDTO(jwt, refreshToken);
-        return new ResponseDTO<>("OK", 200, jwtResponseDTO);
+        throw new RuntimeException("Test exception handler");
+//        String jwt = userService.auth(userDTO);
+//        String refreshToken = refreshTokenService.createRefreshToken(userDTO.getEmail()).getToken();
+//        JwtResponseDTO jwtResponseDTO = new JwtResponseDTO(jwt, refreshToken);
+//        return new ResponseDTO<>("OK", 200, jwtResponseDTO);
     }
 
     @PostMapping("/log-out")
